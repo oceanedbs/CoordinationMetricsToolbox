@@ -56,5 +56,8 @@ if __name__ == "__main__":
 
 
     #Compute inter-joint coordination metrics
-    m.compute_continuous_relative_phase(plot=True)
-
+    #crp = m.compute_continuous_relative_phase(trial=0, mean=True, plot=True)
+    #m.compute_angle_angle_plot(trial=-1)
+    # pca = m.compute_principal_component_analysis(trial=2, plot=True, n_components=1)
+    # print(pca)
+    m.compute_cross_correlation(trial=2, plot=True)

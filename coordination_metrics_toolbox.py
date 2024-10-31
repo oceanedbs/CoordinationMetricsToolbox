@@ -22,6 +22,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import itertools
 import numpy as np
+import seaborn as sns
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 def generate_palette(n):
     """
@@ -61,6 +64,7 @@ class CoordinationMetrics():
 
         self.set_angle_names()
         self.set_velocities_names() 
+        self.set_angles_combinations()
 
         self.rename_time_column()
 
@@ -121,6 +125,18 @@ class CoordinationMetrics():
         """
 
         self.list_name_velocities = [f"{angle}_velocity" for angle in self.list_name_angles]
+
+    def set_angles_combinations(self):
+        """
+        Sets the combinations of angles for computing inter-joint coordination metrics.
+        This method generates all possible combinations of angles from the list of angle names
+        and stores them in the `angles_combinations` attribute.
+        Attributes:
+            list_name_angles (list): A list containing the names of the angles.
+            angles_combinations (list): A list containing all possible combinations of angles.
+        """
+
+        self.angles_combinations = list(itertools.combinations(self.list_name_angles, 2))
 
     def rename_time_column(self):
         """
@@ -280,37 +296,118 @@ class CoordinationMetrics():
         """
         Computes the continuous relative phase (CRP) between pairs of joints.
         Parameters:
-        trial (int): The index of the trial to compute the CRP for. Default is 0.
+        trial (int): The index of the trial to compute the CRP for. Default is 0. If -1, uses the mean joints data
         plot (bool): Flag to indicate whether to plot the CRP. Default is False.
         Raises:
         ValueError: If the trial index is out of range.
         Returns:
         dict: A dataframe containing the CRP values for each pair of joints, one row per trial.
         """
-        if trial >= len(self.data_joints_angles) or trial < 0:
+
+        if trial >= len(self.data_joints_angles) or trial < -1:
             raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
-        angles_combinations = itertools.combinations(self.list_name_angles, 2)  
 
-        crp_result = pd.DataFrame(columns=['trial']+list(angles_combinations))
-
+        if trial == -1:
+            data = [self.get_mean_data()]
+        elif trial == 0: 
+            data = self.data_joints_angles
+        else:
+            data = [self.data_joints_angles[trial]]
         #compute the phase for each joint
-        for d in self.data_joints_angles:
+        for d in data:
             for angle, angle_vel in zip(self.list_name_angles, self.list_name_velocities):
                 d[f"{angle}_phase"] = np.arctan2(d[angle_vel],d[angle])
 
-            for a1, a2 in angles_combinations:
-                d['CRP_'+a1+'_'+a2] = d[a1+'_phase'] - d[a2+'_phase']
+            for a1, a2 in self.angles_combinations:
+                print(a1, a2)
+                #create column and fill with NaN
+                d['CRP_'+a1+'_'+a2] = np.NaN
+                #compute relative phase, without considering the first row that is NaN
+                d['CRP_'+a1+'_'+a2].iloc[1:] = np.unwrap(d[a1+'_phase'].iloc[1:] - d[a2+'_phase'].iloc[1:])
 
-        if plot:                    
-            for a1, a2 in angles_combinations:
+        #plot the CRP
+        if plot and trial == 0:      
+            for a1, a2 in self.angles_combinations:
                 fig, ax = plt.subplots()
-                for d in self.data_joints_angles:
-                    d.plot(x='time', y='CRP_'+a1+'_'+a2, ax=ax)
-                    ax.set_title('Continuous Relative Phase')
+                for i, d in enumerate(data):
+                    d.plot(x='time', y='CRP_'+a1+'_'+a2, ax=ax, label="Trial "+str(i))
+                    ax.set_title('Continuous Relative Phase '+a1+'-'+a2)
                     ax.set_xlabel('Time')
                     ax.set_ylabel('CRP (radians)')
-                    plt.show()
-            
+                plt.show()
+        if plot and trial>0:
+            for a1, a2 in self.angles_combinations:
+                fig, ax = plt.subplots()
+                self.data_joints_angles[trial].plot(x='time', y='CRP_'+a1+'_'+a2, ax=ax)
+                ax.set_title(f'Trial n°{trial} Continuous Relative Phase {a1}-{a2}')
+                ax.set_xlabel('Time')
+                ax.set_ylabel('CRP (radians)')
+                plt.show()
+        return data
+
+
+    def compute_angle_angle_plot(self, trial=0):
+
+        if trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        
+        if trial == 0:
+            data = self.get_concatenate_data()
+        elif trial==-1:
+            data = self.get_mean_data()
+        else:
+            data = self.data_joints_angles[trial]
+
+        a = sns.pairplot(data, vars=self.list_name_angles, kind='scatter', corner=True, diag_kind='kde', plot_kws={'alpha':0.5})
+        if self.name is not None:
+            a.fig.suptitle(f"Angle-Angle plot for {self.name}")
+        else : 
+            a.fig.suptitle("Angle-Angle plot")
+        plt.show()
+
+    def compute_principal_component_analysis(self, trial=0, plot=False, n_components=2):
+        """
+        Computes the principal component analysis (PCA) for the joint angles.
+        Parameters:
+        trial (int): The index of the trial to compute the PCA for. Default is 0. If -1, uses the mean joints data
+        plot (bool): Flag to indicate whether to plot the PCA. Default is False.
+        Raises:
+        ValueError: If the trial index is out of range.
+        Returns:
+        dict: A dataframe containing the PCA values for each pair of joints, one row per trial.
+        """
+
+        if trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+
+        if trial == -1:
+            data = self.get_mean_data()
+        elif trial == 0: 
+            data = self.get_concatenate_data()
+        else:
+            data = self.data_joints_angles[trial]
+        
+        #standardize the data
+        scaler = StandardScaler()
+        data_scaled = scaler.fit_transform(data)
+
+        #compute the PCA for each joint
+        pca = PCA(n_components=n_components)
+        pca.fit(data[self.list_name_angles])
+
+        component_weights = pca.components_
+
+        #plot the PCA
+        if plot:      
+            fig, ax = plt.subplots(n_components, 1)
+            if n_components == 1:
+                ax = [ax]   
+            for n in range(n_components):
+                ax[n].bar(self.list_name_angles, pca.components_[n])
+                ax[n].set_title(f'Principal Component {n+1}')
+            plt.show()
+    
+        return component_weights
    
     #%% Getter functions 
 
@@ -340,3 +437,37 @@ class CoordinationMetrics():
             list: A list containing the names of the angles.
         """
         return self.list_name_angles
+
+    def get_list_name_velocities(self):
+        """
+        Getter function for the list_name_velocities attribute.
+        This function returns the list_name_velocities attribute.
+        Returns:
+            list: A list containing the names of the velocities of the angles.
+        """
+        return self.list_name_velocities
+    
+    def get_angles_combinations(self):
+        """
+        Getter function for the angles_combinations attribute.
+        This function returns the angles_combinations attribute.
+        Returns:
+            list: A list containing all possible combinations of angles.
+        """
+        return self.angles_combinations 
+    
+    def get_mean_data(self):
+        """
+        Returns the mean of the data for all trials.
+        Returns:
+            DataFrame: A DataFrame containing the mean of the data for all trials.
+        """
+        return pd.concat(self.data_joints_angles).groupby('time').mean().reset_index()
+    
+    def get_concatenate_data(self):
+        """
+        Concatenate all joints data in a single DataFrame.
+        Returns:
+            DataFrame: A DataFrame containing all joints data.
+        """
+        return pd.concat(self.data_joints_angles)

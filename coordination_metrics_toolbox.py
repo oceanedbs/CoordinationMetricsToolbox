@@ -408,6 +408,54 @@ class CoordinationMetrics():
             plt.show()
     
         return component_weights
+
+    def compute_cross_correlation(self, trial=0, plot=False, normalize=False):
+        """
+        Computes the cross-correlation between pairs of joints.
+        Parameters:
+        trial (int): The index of the trial to compute the cross-correlation for. Default is 0. If -1, uses the mean joints data
+        plot (bool): Flag to indicate whether to plot the cross-correlation. Default is False.
+        Raises:
+        ValueError: If the trial index is out of range.
+        Returns:
+        dict: A dataframe containing the cross-correlation values for each pair of joints, one row per trial.
+        """
+
+        if trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+
+        if trial == -1:
+            data = [self.get_mean_data()]
+        elif trial == 0: 
+            data = self.get_data_joints_angles()
+        else:
+            data = [self.data_joints_angles[trial]]
+
+        # Normalize the data
+        if normalize:
+            for d in data:
+                for col in self.list_name_angles:
+                    d[col] = (d[col] - d[col].mean()) / d[col].std()
+
+        for a1, a2 in self.angles_combinations:
+            for d in data:
+                #create column and fill with NaN
+                d['CrossCorr_'+a1+'_'+a2] = np.NaN
+                #compute cross-correlation
+                d['CrossCorr_'+a1+'_'+a2] = np.correlate(d[a1],d[a2], mode='same')
+                d['CrossCorr_Lag']=np.arange(-len(d)//2,len(d)//2)
+                
+        if plot:
+            for a1, a2 in self.angles_combinations:
+                fig, ax = plt.subplots()
+                for i, d in enumerate(data):
+                    d.plot(x='CrossCorr_Lag', y='CrossCorr_'+a1+'_'+a2, ax=ax, label="Trial "+str(i))
+                ax.set_title(f'Cross-correlation {a1}-{a2}')
+                ax.set_xlabel('Lag Step')
+                ax.set_ylabel('Cross-correlation')
+                plt.show()
+
+        return data
    
     #%% Getter functions 
 

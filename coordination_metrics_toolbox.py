@@ -25,6 +25,7 @@ import numpy as np
 import seaborn as sns
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+import math
 
 def generate_palette(n):
     """
@@ -507,6 +508,67 @@ class CoordinationMetrics():
             plt.show()
 
         return ici_results
+    
+    def get_pca_subspace(self):
+        """
+        Return the subspace defined by the eigenvectors of the covariance matrix.
+
+        Returns
+        -------
+        eigenvectors : TYPE
+            DESCRIPTION.
+
+        """
+        data = self.get_concatenate_data()
+        scaler = StandardScaler()
+        data_scaled = scaler.fit_transform(data[self.list_name_angles])
+        pca = PCA()
+        pca.fit(data_scaled)
+        return pca.components_
+    
+    def compute_distance_between_PCs(self, cm2,trialA=None, trialB=None, plot=False):
+        """
+        Computes the distance between the principal components (PCs) of the joint angles.
+        From Bockemühl Till, Troje NF, Dürr V. Inter‑joint coupling and joint angle synergies of human catching movements. Hum Mov Sci. 2010;29(1):73–93.
+        https:// doi. org/ 10. 1016/j. humov. 2009. 03. 003.
+        Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s being the minimum singular value of the matrix W = min(U^T V ).
+        Parameters:
+        trial (int): The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data
+        plot (bool): Flag to indicate whether to plot the distance between PCs. Default is False.
+        Raises:
+        ValueError: If the trial index is out of range.
+        Returns:
+        res_dist_pca: A dataframe containing the distance between PCs for each pair of joints, one row per trial.
+        """
+
+        #Compute PCA on both datasets that will define U and V
+        res_dist_pca = pd.DataFrame(columns=['datasetA', 'datasetB', 'distance', 'angle'])
+        subspaceA = self.get_pca_subspace() # U
+        subspaceB = cm2.get_pca_subspace() # V
+
+        print(subspaceA)
+        print(subspaceB)
+
+        # Compute U^T V
+        W = np.dot(subspaceA.T, subspaceB)
+
+        print(W)
+        # Compute the singular values of W
+        u, s, v = np.linalg.svd(np.dot(subspaceA, np.transpose(subspaceB)))
+        print(s)
+        #find the minimum singular value
+        min_singular_value = np.min(s)
+        # print(s_min)
+        if min_singular_value > 1:
+            min_singular_value = 1
+
+        #comute the distance
+        distance = np.real(np.sqrt(1 - min_singular_value**2))
+        angle = math.asin(distance)*180/math.pi
+
+        res_dist_pca.loc[len(res_dist_pca)] = {'datasetA': self.get_name(), 'datasetB': cm2.get_name(), 'distance': distance, 'angle': angle}
+        
+
    
     #%% Getter functions 
 
@@ -527,6 +589,15 @@ class CoordinationMetrics():
             int: The number of degrees of freedom.
         """
         return self.n_dof
+    
+    def get_name(self):
+        """
+        Getter function for the name attribute.
+        This function returns the name attribute.
+        Returns:
+            str: The name of the dataset instance.
+        """
+        return self.name
 
     def get_list_name_angles(self):
         """

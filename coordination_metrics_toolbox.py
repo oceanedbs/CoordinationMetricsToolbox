@@ -56,7 +56,10 @@ class CoordinationMetrics():
 
         self.list_files_angles = list_files_angles
         self.list_name_angles = list_name_angles
-        self.name = name
+        if name is not None:
+            self.name = name
+        else:
+            self.name = "Dataset"
         self.deg = deg
         self.freq = freq
 
@@ -208,14 +211,17 @@ class CoordinationMetrics():
         None
         """
 
-        if trial >= len(self.data_joints_angles) or trial < 0:
-            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
-        elif trial == None :
+        if trial == None:
             data = self.data_joints_angles
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
         elif trial == -1:
             data = [self.get_mean_data()]
+            title = "Mean of all trials"
         else : 
             data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"
 
         fig, ax = plt.subplots()
         c = generate_palette(self.n_dof)
@@ -232,7 +238,7 @@ class CoordinationMetrics():
             if self.name is not None:
                 fig.suptitle(f"Joint angles for {self.name}")
             else:
-                fig.suptitle("Joint angles")
+                fig.suptitle("Joint angles \n"+title + '\n' + self.name)    
         plt.show()
     
     def plot_joints_angular_velocity(self, trial=None):    
@@ -245,19 +251,22 @@ class CoordinationMetrics():
         Returns:
         None
         """
-        if trial >= len(self.data_joints_angles) or trial < 0:
-            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
-        elif trial == None:
+        if trial == None:
             data = self.data_joints_angles
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
         elif trial == -1:
             data = [self.get_mean_data()]
+            title = "Mean of all trials"
         else:
             data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"
 
         fig, ax = plt.subplots()
         c = generate_palette(self.n_dof)
         # plot all trials
-        for df in self.data_joints_angles:
+        for df in data:
             for i, angle in enumerate(self.list_name_angles):
                 df.plot(x="time", y=f"{angle}_velocity", ax=ax, color=c[i])
         ax.legend(self.list_name_angles)
@@ -266,10 +275,8 @@ class CoordinationMetrics():
             ax.set_ylabel("Angular Velocity (degrees/s)")
         else:
             ax.set_ylabel("Angular Velocity (radians/s)")
-        if self.name is not None:
-            fig.suptitle(f"Joint angular velocities for {self.name}")
-        else:
-            fig.suptitle("Joint angular velocities")
+      
+        fig.suptitle("Joint angular velocities \n"+title + '\n' + self.name)
         plt.show()
 
    #%% Inter-joint coordination metrics
@@ -286,14 +293,17 @@ class CoordinationMetrics():
         dict: A dataframe containing the CRP values for each pair of joints, one row per trial.
         """
 
-        if trial >= len(self.data_joints_angles) or trial < -1:
-            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
-        if trial == -1:
-            data = [self.get_mean_data()]
-        elif trial == None: 
+        if trial == None: 
             data = self.data_joints_angles
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = [self.get_mean_data()]
+            title = "Mean of all trials"
         else:
             data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"    
         #compute the phase for each joint
         for d in data:
             for angle, angle_vel in zip(self.list_name_angles, self.list_name_velocities):
@@ -312,7 +322,7 @@ class CoordinationMetrics():
                 fig, ax = plt.subplots()
                 for i, d in enumerate(data):
                     d.plot(x='time', y='CRP_'+a1+'_'+a2, ax=ax, label="Trial "+str(i))
-                    ax.set_title('Continuous Relative Phase '+a1+'-'+a2)
+                    ax.set_title('Continuous Relative Phase '+a1+'-'+a2 + '\n'+title + '\n' + self.name)
                     ax.set_xlabel('Time')
                     ax.set_ylabel('CRP (radians)')
                 plt.show()
@@ -333,22 +343,20 @@ class CoordinationMetrics():
         None: This function does not return any value. It displays a plot.
         """
         
-
-        if trial >= len(self.data_joints_angles) or trial < -1:
-            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
-        
         if trial == None:
             data = self.get_concatenate_data()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
         elif trial==-1:
             data = self.get_mean_data()
+            title = "Mean of all trials"
         else:
             data = self.data_joints_angles[trial]
+            title = f"Trial {trial}"
 
         a = sns.pairplot(data, vars=self.list_name_angles, kind='scatter', corner=True, diag_kind='kde', plot_kws={'alpha':0.5})
-        if self.name is not None:
-            a.fig.suptitle(f"Angle-Angle plot for {self.name}")
-        else : 
-            a.fig.suptitle("Angle-Angle plot")
+        a.fig.suptitle("Angle-Angle plot \n"+title + '\n' + self.name)  
         plt.show()
 
     def compute_principal_component_analysis(self, trial=None, plot=False, n_components=2):
@@ -362,16 +370,17 @@ class CoordinationMetrics():
         Returns:
         dict: A dataframe containing the PCA values for each pair of joints, one row per trial.
         """
-
-        if trial >= len(self.data_joints_angles) or trial < -1:
-            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
-
-        if trial == -1:
-            data = self.get_mean_data()
-        elif trial == None: 
+        if trial == None: 
             data = self.get_concatenate_data()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = self.get_mean_data()
+            title = "Mean of all trials"
         else:
             data = self.data_joints_angles[trial]
+            title = f"Trial {trial}"
         
         #standardize the data
         scaler = StandardScaler()
@@ -390,7 +399,7 @@ class CoordinationMetrics():
                 ax = [ax]   
             for n in range(n_components):
                 ax[n].bar(self.list_name_angles, pca.components_[n])
-                ax[n].set_title(f'Principal Component {n+1}')
+                ax[n].set_title(f'Principal Component {n+1} \n'+title + '\n' + self.name)
             plt.show()
     
         return component_weights
@@ -407,15 +416,17 @@ class CoordinationMetrics():
         dict: A dataframe containing the cross-correlation values for each pair of joints, one row per trial.
         """
 
-        if trial >= len(self.data_joints_angles) or trial < -1:
-            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
-
-        if trial == -1:
-            data = [self.get_mean_data()]
-        elif trial == None: 
+        if trial == None: 
             data = self.get_data_joints_angles()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = [self.get_mean_data()]
+            title = "Mean of all trials"
         else:
             data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"
 
         # Normalize the data
         if normalize:
@@ -436,12 +447,66 @@ class CoordinationMetrics():
                 fig, ax = plt.subplots()
                 for i, d in enumerate(data):
                     d.plot(x='CrossCorr_Lag', y='CrossCorr_'+a1+'_'+a2, ax=ax, label="Trial "+str(i))
-                ax.set_title(f'Cross-correlation {a1}-{a2}')
+                ax.set_title(f'Cross-correlation {a1}-{a2} \n'+title + '\n' + self.name)
                 ax.set_xlabel('Lag Step')
                 ax.set_ylabel('Cross-correlation')
                 plt.show()
 
         return data
+    
+    def compute_interjoint_coupling_interval(self, trial=None, plot=False):
+        """
+        Computes the Interjoint Coupling Interval (ICI) between pairs of joints.
+        Parameters:
+        trial (int): The index of the trial to compute the ICI for. Default is None and uses all the data. If -1, uses the mean joints data
+        plot (bool): Flag to indicate whether to plot the ICI. Default is False.
+        Raises:
+        ValueError: If the trial index is out of range.
+        Returns:
+        dict: A dataframe containing the ICI values for each pair of joints, one row per trial.
+        """
+        if trial == None: 
+            data = self.get_data_joints_angles()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = [self.get_mean_data()]
+            title = "Mean of all trials"
+        else:
+            data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"
+        
+        # Create an empty confusion matrix with the joint angles as columns and rows
+        ici_results = pd.DataFrame(columns=['trial', 'joints', 'ICI'])
+       
+        print(ici_results.columns)
+        for i,d in enumerate(data) :
+            for a1, a2 in self.angles_combinations:
+                #compute ICI
+                end_of_movement1 = d[(d[a1+'_velocity'] < 0.05 * d[a1+'_velocity'].max())]
+                end_of_movement2 = d[(d[a2+'_velocity'] < 0.05 * d[a2+'_velocity'].max())]
+
+                # Find the intervals where the indices are consecutive and selet the last block for the end of the movement
+                #Then select the first element of the last block as the deactivation time of the joint
+                end_of_movement1 = np.split(end_of_movement1, np.where(np.diff(end_of_movement1.index) != 1)[0] + 1)[-1].head(1)
+                end_of_movement2 = np.split(end_of_movement2, np.where(np.diff(end_of_movement2.index) != 1)[0] + 1)[-1].head(1)
+
+                #Compute the ICI
+                ici_results.loc[len(ici_results)] = ({'trial': i, 'joints': f'{a1}_{a2}', 'ICI': end_of_movement2['time'].values[0] - end_of_movement1['time'].values[0]})
+
+                
+            print(ici_results)
+
+        if plot:
+            fig, ax = plt.subplots()
+            sns.barplot(ici_results, x='joints', y='ICI', ax=ax)
+            ax.set_title(f'Interjoint Coupling Interval {a1}-{a2} \n'+title + '\n' + self.name)
+            ax.set_xlabel('Time')
+            ax.set_ylabel('ICI')
+            plt.show()
+
+        return ici_results
    
     #%% Getter functions 
 

@@ -51,13 +51,14 @@ if __name__ == "__main__":
     m = cm.CoordinationMetrics(file_list)
 
     # Plot the data
-    # m.plot_joints_angles(2)
-    # m.plot_joints_angular_velocity(2)
+    #m.plot_joints_angles(-1)
+    #m.plot_joints_angular_velocity(4)
 
 
     #Compute inter-joint coordination metrics
-    #crp = m.compute_continuous_relative_phase(trial=0, mean=True, plot=True)
-    #m.compute_angle_angle_plot(trial=-1)
-    # pca = m.compute_principal_component_analysis(trial=2, plot=True, n_components=1)
+    #crp = m.compute_continuous_relative_phase(trial=4, plot=True)
+    #m.compute_angle_angle_plot(trial=None)
+    #pca = m.compute_principal_component_analysis(trial=-1, plot=True, n_components=1)
     # print(pca)
-    m.compute_cross_correlation(trial=0, plot=True, normalize=True)
+    #m.compute_cross_correlation(trial=-1, plot=True, normalize=True)
+    m.compute_interjoint_coupling_interval(trial=-1, plot=True)

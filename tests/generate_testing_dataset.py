@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import coordination_metrics_toolbox as cm
 import os
 import random
 import numpy as np
@@ -10,16 +9,16 @@ noise_freq = 0.05
 noise_phase = 0.1
 
 # Generate n samples files for testing
-def generate_test_data(n=1, plot = False): 
+def generate_test_data(n=1, plot = False, folder_name = 'test_dataset'): 
     
     # Write the data to a file in a folder test_dataset
     # Create the directory if it doesn't exist
-    os.makedirs('test_dataset', exist_ok=True) 
+    os.makedirs('tests/'+folder_name, exist_ok=True) 
     np.random.seed(42)  # For reproducibility
     t = np.linspace(0, 10, 1000)  # 100 time points from 0 to 10
     
     for i in range(n):
-        file_path = os.path.join('test_dataset2', 'test_data_'+str(i)+'.csv')
+        file_path = os.path.join('tests', folder_name, 'test_data_'+str(i)+'.csv')
 
         # Generate random data for testing
         frequencies = [0.4+random.uniform(-noise_freq, noise_freq), 0.6+random.uniform(-noise_freq, noise_freq), 0.8+random.uniform(-noise_freq, noise_freq)]  # Different frequencies for the 3 joints
@@ -45,4 +44,4 @@ def generate_test_data(n=1, plot = False):
     return list_file_paths
 
 if __name__ == "__main__":
-    file_list = generate_test_data(5, False)
+    file_list = generate_test_data(5, False, 'test_dataset3')

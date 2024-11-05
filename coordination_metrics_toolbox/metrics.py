@@ -26,6 +26,8 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import math
+#from .utils import generate_palette
+
 
 def generate_palette(n):
     """
@@ -225,7 +227,7 @@ class CoordinationMetrics():
             title = f"Trial {trial}"
 
         fig, ax = plt.subplots()
-        c = generate_palette(self.n_dof)
+        c = ut.generate_palette(self.n_dof)
         #plot all trials
         for df in data:
             for i, angle in enumerate(self.list_name_angles):
@@ -265,7 +267,7 @@ class CoordinationMetrics():
             title = f"Trial {trial}"
 
         fig, ax = plt.subplots()
-        c = generate_palette(self.n_dof)
+        c = ut.generate_palette(self.n_dof)
         # plot all trials
         for df in data:
             for i, angle in enumerate(self.list_name_angles):
@@ -391,8 +393,6 @@ class CoordinationMetrics():
         pca = PCA(n_components=n_components)
         pca.fit(data[self.list_name_angles])
 
-        component_weights = pca.components_
-
         #plot the PCA
         if plot:      
             fig, ax = plt.subplots(n_components, 1)
@@ -403,7 +403,7 @@ class CoordinationMetrics():
                 ax[n].set_title(f'Principal Component {n+1} \n'+title + '\n' + self.name)
             plt.show()
     
-        return component_weights
+        return pca
 
     def compute_cross_correlation(self, trial=None, plot=False, normalize=False):
         """

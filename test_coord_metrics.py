@@ -8,13 +8,13 @@ import pandas as pd
 if __name__ == "__main__":   
 
     # Get all the files as a list of file names contained in test_dataset
-    test_dataset_path = "/home/oceane/Documents/Tbèse/CoordinationMetricsToolbox/test_dataset"
+    test_dataset_path = "tests/test_dataset"
     file_list = [os.path.join(test_dataset_path, f) for f in os.listdir(test_dataset_path) if os.path.isfile(os.path.join(test_dataset_path, f))]
     # Perform coordination metrics analysis on test data
     m1 = cm.CoordinationMetrics(file_list)
 
     # Get all the files as a list of file names contained in test_dataset
-    test_dataset_path = "/home/oceane/Documents/Tbèse/CoordinationMetricsToolbox/test_dataset2"
+    test_dataset_path = "tests/test_dataset2"
     file_list = [os.path.join(test_dataset_path, f) for f in os.listdir(test_dataset_path) if os.path.isfile(os.path.join(test_dataset_path, f))]
     # Perform coordination metrics analysis on test data
     m2 = cm.CoordinationMetrics(file_list)

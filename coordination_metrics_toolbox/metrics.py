@@ -412,6 +412,8 @@ class CoordinationMetrics():
         a = sns.pairplot(data, vars=self.list_name_angles, kind='scatter', corner=True, diag_kind='kde', plot_kws={'alpha':0.5})
         a.fig.suptitle("Angle-Angle plot \n"+title + '\n' + self.name)  
         plt.show()
+    
+        return data
 
     def compute_principal_component_analysis(self, trial=None, plot=False, n_components=2):
         """

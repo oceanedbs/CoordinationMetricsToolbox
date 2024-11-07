@@ -365,11 +365,10 @@ class CoordinationMetrics():
                 d[f"{angle}_phase"] = np.arctan2(d[angle_vel],d[angle])
 
             for a1, a2 in self.angles_combinations:
-                print(a1, a2)
                 #create column and fill with NaN
                 d['CRP_'+a1+'_'+a2] = np.NaN
                 #compute relative phase, without considering the first row that is NaN
-                d['CRP_'+a1+'_'+a2].iloc[1:] = np.unwrap(d[a1+'_phase'].iloc[1:] - d[a2+'_phase'].iloc[1:])
+                d.loc[1:, 'CRP_'+a1+'_'+a2] = np.unwrap(d.loc[1:, a1+'_phase'] - d.loc[1:, a2+'_phase'])
 
         #plot the CRP
         if plot :      
@@ -946,6 +945,47 @@ class CoordinationMetrics():
             plt.show()
 
         return subspaceA, res, sub
+    
+    def compute_jsvcrp(self, coord_metric, plot=False):
+        """
+        Compute Joint Synchronization variation based on Continuous Relative Phase (JSvCRP).
+        This function computes the area between the CRP curves of two datasets.
+        Parameters:
+        coord_metric (CoordinationMetrics): The CoordinationMetrics object for the second dataset.
+        plot (bool): Flag to indicate whether to plot the JSvCRP results. Default is False.
+        Returns:
+        res_jsvcrp: A DataFrame containing the JSvCRP values for each pair of joints.
+        """
+
+        # Compute the CRP for both datasets
+        crp1 = self.compute_continuous_relative_phase()
+        crp2 = coord_metric.compute_continuous_relative_phase()
+        
+        crp1=pd.concat(crp1)
+        crp2=pd.concat(crp2)
+
+        
+        # Compute the JSvCRP
+        res_jsvcrp = pd.DataFrame(index=self.list_name_angles, columns=self.list_name_angles)
+        for a1, a2 in self.angles_combinations:
+            crp1_a = crp1['CRP_'+a1+'_'+a2].dropna()
+            crp2_a = crp2['CRP_'+a1+'_'+a2].dropna()
+            jsvcrp = np.trapz(np.abs(crp1_a - crp2_a))
+            res_jsvcrp.loc[a1, a2] = jsvcrp
+            res_jsvcrp.loc[a2, a1] = jsvcrp
+        res_jsvcrp = res_jsvcrp.replace(np.nan, 0)
+        print(res_jsvcrp)
+        if plot:
+            fig, ax = plt.subplots()
+            # Generate a mask for the upper triangle
+            mask = np.triu(np.ones_like(res_jsvcrp, dtype=bool))
+            sns.heatmap(data=res_jsvcrp, ax=ax, mask=mask, annot=True, cmap='coolwarm')
+            ax.set_title('Joint Synchronization Variation based on Continuous Relative Phase')
+            ax.set_xlabel('Joint Pairs')
+            ax.set_ylabel('JSvCRP')
+            plt.show()
+
+        return res_jsvcrp
 
    
     #%% Getter functions 

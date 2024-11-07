@@ -47,6 +47,6 @@ if __name__ == "__main__":
 
     #res_dtw = m1.compute_dynamic_time_warping(trial= None, plot=True)
 
-    #res_jcvpca = m1.compute_jcvpca(m2, plot=True, n_pca=2)
+    res_jcvpca = m1.compute_jcvpca(m2, plot=True, n_pca=2)
 
-    res_jsvcrp = m1.compute_jsvcrp(m2, plot=True)
+    #res_jsvcrp = m1.compute_jsvcrp(m2, plot=True)

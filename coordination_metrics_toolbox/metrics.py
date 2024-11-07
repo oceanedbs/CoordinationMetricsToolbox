@@ -27,8 +27,6 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import math
 from fastdtw import fastdtw
-#from .utils import generate_palette
-
 
 def generate_palette(n):
     """
@@ -147,6 +145,7 @@ class CoordinationMetrics():
         Sets the names of the velocities of the angles.
         This method sets the names of the velocities of the angles by appending "_velocity"
         to the names of the angles.
+
         Attributes:
             list_name_angles (list): A list containing the names of the angles.
             list_name_velocities (list): A list containing the names of the velocities of the angles.
@@ -159,6 +158,7 @@ class CoordinationMetrics():
         Sets the combinations of angles for computing inter-joint coordination metrics.
         This method generates all possible combinations of angles from the list of angle names
         and stores them in the `angles_combinations` attribute.
+
         Attributes:
             list_name_angles (list): A list containing the names of the angles.
             angles_combinations (list): A list containing all possible combinations of angles.
@@ -577,9 +577,8 @@ class CoordinationMetrics():
         data = self.get_concatenate_data()
         scaler = StandardScaler()
         data_scaled = scaler.fit_transform(data[self.list_name_angles])
-        pca = PCA(n_components=n_components)
-        pca.fit(data_scaled)
-        return pca.components_, pca.explained_variance_ratio_
+       
+        return get_pca_frame(data_scaled, n_components)
     
     def compute_distance_between_PCs(self, cm2,trialA=None, trialB=None, plot=False):
         """

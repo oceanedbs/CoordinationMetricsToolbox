@@ -549,16 +549,18 @@ DataFrame, excluding the first column that should be the time.
 <span class="sig-name descname"><span class="pre">set_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.set_angles_combinations" title="Link to this definition"></a></dt>
 <dd><p>Sets the combinations of angles for computing inter-joint coordination metrics.
 This method generates all possible combinations of angles from the list of angle names
-and stores them in the <cite>angles_combinations</cite> attribute.
-.. attribute:: list_name_angles</p>
-<blockquote>
-<div><p>A list containing the names of the angles.</p>
+and stores them in the <cite>angles_combinations</cite> attribute.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_angles">
+<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_angles" title="Link to this definition"></a></dt>
+<dd><p>A list containing the names of the angles.</p>
 <dl class="field-list simple">
-<dt class="field-odd">type<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-</div></blockquote>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.angles_combinations">
 <span class="sig-name descname"><span class="pre">angles_combinations</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.angles_combinations" title="Link to this definition"></a></dt>
@@ -588,8 +590,8 @@ list_name_angles attribute and assigns this value to the n_dof attribute.
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_angles">
-<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_angles" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd><p>A list containing the names of the angles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -605,16 +607,18 @@ list_name_angles attribute and assigns this value to the n_dof attribute.
 <span class="sig-name descname"><span class="pre">set_velocities_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_velocities_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.set_velocities_names" title="Link to this definition"></a></dt>
 <dd><p>Sets the names of the velocities of the angles.
 This method sets the names of the velocities of the angles by appending “_velocity”
-to the names of the angles.
-.. attribute:: list_name_angles</p>
-<blockquote>
-<div><p>A list containing the names of the angles.</p>
+to the names of the angles.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>A list containing the names of the angles.</p>
 <dl class="field-list simple">
-<dt class="field-odd">type<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-</div></blockquote>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_velocities">
 <span class="sig-name descname"><span class="pre">list_name_velocities</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_velocities" title="Link to this definition"></a></dt>
@@ -865,15 +869,15 @@ If -1, computes TCI for the mean of all trials. Default is None.</p>
 <dt>plot<span class="classifier">bool, optional</span></dt><dd><p>If True, plots the TCI results using a bar plot. Default is False.</p>
 </dd>
 </dl>
-<section id="id1">
-<h3>Returns:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<section id="id2">
+<h3>Returns:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>tci_results<span class="classifier">pandas.DataFrame</span></dt><dd><p>A DataFrame containing the TCI results with columns ‘trial’, ‘joints’, and ‘tci’.</p>
 </dd>
 </dl>
 </section>
-<section id="id2">
-<h3>Raises:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<section id="id3">
+<h3>Raises:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If end-effector data is not available.
 If the trial index is out of range.</p>
@@ -1087,16 +1091,18 @@ DataFrame, excluding the first column that should be the time.
 <span class="sig-name descname"><span class="pre">set_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.set_angles_combinations" title="Link to this definition"></a></dt>
 <dd><p>Sets the combinations of angles for computing inter-joint coordination metrics.
 This method generates all possible combinations of angles from the list of angle names
-and stores them in the <cite>angles_combinations</cite> attribute.
-.. attribute:: list_name_angles</p>
-<blockquote>
-<div><p>A list containing the names of the angles.</p>
+and stores them in the <cite>angles_combinations</cite> attribute.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.list_name_angles">
+<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.list_name_angles" title="Link to this definition"></a></dt>
+<dd><p>A list containing the names of the angles.</p>
 <dl class="field-list simple">
-<dt class="field-odd">type<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-</div></blockquote>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.angles_combinations">
 <span class="sig-name descname"><span class="pre">angles_combinations</span></span><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.angles_combinations" title="Link to this definition"></a></dt>
@@ -1126,8 +1132,8 @@ list_name_angles attribute and assigns this value to the n_dof attribute.
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.list_name_angles">
-<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.list_name_angles" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
 <dd><p>A list containing the names of the angles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -1143,16 +1149,18 @@ list_name_angles attribute and assigns this value to the n_dof attribute.
 <span class="sig-name descname"><span class="pre">set_velocities_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_velocities_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.set_velocities_names" title="Link to this definition"></a></dt>
 <dd><p>Sets the names of the velocities of the angles.
 This method sets the names of the velocities of the angles by appending “_velocity”
-to the names of the angles.
-.. attribute:: list_name_angles</p>
-<blockquote>
-<div><p>A list containing the names of the angles.</p>
+to the names of the angles.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>A list containing the names of the angles.</p>
 <dl class="field-list simple">
-<dt class="field-odd">type<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-</div></blockquote>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.list_name_velocities">
 <span class="sig-name descname"><span class="pre">list_name_velocities</span></span><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.list_name_velocities" title="Link to this definition"></a></dt>

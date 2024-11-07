@@ -23,10 +23,10 @@ import matplotlib.pyplot as plt
 import itertools
 import numpy as np
 import seaborn as sns
-from fastdtw import fastdtw
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import math
+from fastdtw import fastdtw
 #from .utils import generate_palette
 
 
@@ -797,6 +797,8 @@ class CoordinationMetrics():
         ValueError: If the trial index is out of range.
         Returns:
         dict: A dataframe containing the DTW values for each pair of joints, one row per trial.
+        Analysis :
+        The lower the value is the more coordinated are the joints
         """
         if trial == None:
             data = self.get_data_joints_angles()
@@ -817,7 +819,7 @@ class CoordinationMetrics():
             for a1, a2 in self.angles_combinations:
                 #compute DTW
                 dtw_results.loc[len(dtw_results)] = ({'trial': i, 'joints': f'{a1}_{a2}', 'dtw': fastdtw(d[a1], d[a2])[0]})
-        
+
         if plot:
             fig, ax = plt.subplots()
             sns.barplot(dtw_results, x='joints', y='dtw', ax=ax)

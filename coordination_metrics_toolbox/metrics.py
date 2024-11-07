@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import itertools
 import numpy as np
 import seaborn as sns
+from fastdtw import fastdtw
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import math
@@ -46,13 +47,14 @@ def generate_palette(n):
 
 class CoordinationMetrics():
 
-    def __init__(self, list_files_angles, list_name_angles=None, name=None, deg=True, freq=None):
+    def __init__(self, list_files_angles, list_name_angles=None, name=None, end_effector=False,  deg=True, freq=None):
         """
         Initialize the CoordinationMetricsToolbox.
         Parameters:
         list_files_angles (list): List of file paths containing angle data.
         list_name_angles (list, optional): List of names corresponding to the angles. Defaults to None. If no names are passed, it is supposed that the first line containes the time + the name of the joints angles.
         name (str, optional): Name of the dataset instance. Will be printed as a header of plots. Defaults to None.
+        end_effector (bool, optional): Flag indicating if the data contains end-effector data. Defaults to False. If end effector data are contained it is supposed that there are 3 columns : x, y, z.
         deg (bool, optional): Flag indicating if the angles are in degrees. Defaults to True.
         freq (float, optional): Frequency of the data. If None is passed, the sampling frequency will be computed based on the time column. Defaults to None.
         """
@@ -63,6 +65,7 @@ class CoordinationMetrics():
             self.name = name
         else:
             self.name = "Dataset"
+        self.end_effector = end_effector
         self.deg = deg
         self.freq = freq
 
@@ -78,6 +81,11 @@ class CoordinationMetrics():
 
         if not deg:
             self.convert_angles_to_radians()
+
+        if self.end_effector:
+            self.rename_end_effector_columns()  
+            self.compute_end_effector_velocity()
+        
 
         self.compute_joints_angular_velocity()  
 
@@ -117,8 +125,10 @@ class CoordinationMetrics():
             data_joints_angles (list of DataFrames): A list containing DataFrames with joint angle data.
         """
 
-        if self.list_name_angles is None:
+        if self.list_name_angles is None and not self.end_effector:
             self.list_name_angles = self.data_joints_angles[0].columns[1:]
+        elif self.list_name_angles is None and self.end_effector: 
+            self.list_name_angles= self.data_joints_angles[0].columns[1: -3]
 
     def set_velocities_names(self):
         """
@@ -157,6 +167,36 @@ class CoordinationMetrics():
 
         for df in self.data_joints_angles:
             df.rename(columns={df.columns[0]: "time"}, inplace=True)
+
+    def rename_end_effector_columns(self):
+        """
+        Renames the columns of the end-effector data.
+
+        This method renames the columns of the end-effector data to "x", "y", and "z".
+
+        Returns:
+            None
+        """
+
+        for df in self.data_joints_angles:
+            df.rename(columns={df.columns[-3]: "ee_x", df.columns[-2]: "ee_y", df.columns[-1]: "ee_z"}, inplace=True)
+
+    def compute_end_effector_velocity(self):
+        """
+        Computes the velocity of the end-effector data.
+
+        This method computes the velocity of the end-effector data by taking the derivative of the
+        "ee_x", "ee_y", and "ee_z" columns. The velocity is stored in the "ee_x_velocity",
+        "ee_y_velocity", and "ee_z_velocity" columns.
+
+        Returns:
+            None
+        """
+
+        for df in self.data_joints_angles:
+            for col, vel_col in zip(["ee_x", "ee_y", "ee_z"], ["ee_x_velocity", "ee_y_velocity", "ee_z_velocity"]):
+                df[vel_col] = df[col].diff()/df["time"].diff()
+            df["ee_velocity"] = np.sqrt(df["ee_x_velocity"]**2 + df["ee_y_velocity"]**2 + df["ee_z_velocity"]**2)
 
     def set_n_dof(self):
         """
@@ -568,7 +608,225 @@ class CoordinationMetrics():
 
         res_dist_pca.loc[len(res_dist_pca)] = {'datasetA': self.get_name(), 'datasetB': cm2.get_name(), 'distance': distance, 'angle': angle}
         
+    def compute_correlation(self, trial=None, plot=False, type='pearson'):
+        """
+        Computes the correlation between pairs of joints.
+        Parameters:
+        trial (int): The index of the trial to compute the correlation for. Default is None and uses all the data. If -1, uses the mean joints data
+        plot (bool): Flag to indicate whether to plot the correlation. Default is False.
+        type (str): Type of correlation to compute. Default is 'pearson'. Other options are 'spearman' and 'kendall'.
+        Raises:
+        ValueError: If the trial index is out of range.
+        Returns:
+        dict: A dataframe containing the correlation values for each pair of joints, one row per trial.
+        """
+        if trial == None:
+            data = self.get_data_joints_angles()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = [self.get_mean_data()]
+            title = "Mean of all trials"
+        else:
+            data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"
+        
+        # Create an empty confusion matrix with the joint angles as columns and rows
+        correlation_results = pd.DataFrame(columns=['trial', 'joints', 'correlation'])
 
+        for i,d in enumerate(data) :
+            for a1, a2 in self.angles_combinations:
+                #compute correlation
+                correlation_results.loc[len(correlation_results)] = ({'trial': i, 'joints': f'{a1}_{a2}', 'correlation': d[a1].corr(d[a2], method=type)})
+
+        if plot :
+            fig, ax = plt.subplots()
+            sns.barplot(correlation_results, x='joints', y='correlation', ax=ax)
+            ax.set_title(f'Correlation {a1}-{a2} \n'+title + '\n' + self.name)
+            ax.set_xlabel('Time')
+            ax.set_ylabel('Correlation')
+            plt.show()
+
+        return correlation_results
+    
+    def compute_angle_ratio(self, trial=None, plot=False):
+        """
+        Computes the angle ratio of pairs of joints at the maximum velocity of the end-effector time point.
+        Parameters:
+        trial (int): The index of the trial to compute the angle ratio for. Default is None and uses all the data. If -1, uses the mean joints data
+        plot (bool): Flag to indicate whether to plot the angle ratio. Default is False.
+        Raises:
+        ValueError: If the trial index is out of range.
+        Returns:
+        dict: A dataframe containing the angle ratio values for each pair of joints, one row per trial.
+        """
+        if not self.end_effector:
+            raise ValueError("This metric can only be computed if end-effector data is available.")
+        if trial == None:
+            data = self.get_data_joints_angles()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = [self.get_mean_data()]
+            title = "Mean of all trials"
+        else:
+            data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"
+
+        angle_ratio_results = pd.DataFrame(columns=['trial', 'joints', 'angle_ratio'])
+
+        for i, d in enumerate(data):
+            max_vel_time = d['time'][d['ee_velocity'].idxmax()]
+            for a1, a2 in self.angles_combinations:
+                angle1 = d.loc[d['time'] == max_vel_time, a1].values[0]
+                angle2 = d.loc[d['time'] == max_vel_time, a2].values[0]
+                angle_ratio = angle1 / angle2 if angle2 != 0 else np.nan
+                angle_ratio_results.loc[len(angle_ratio_results)] = {'trial': i, 'joints': f'{a1}_{a2}', 'angle_ratio': angle_ratio}
+
+        if plot:
+            fig, ax = plt.subplots()
+            sns.barplot(angle_ratio_results, x='joints', y='angle_ratio', ax=ax)
+            ax.set_title(f'Angle Ratio at Max Velocity Time Point \n'+title + '\n' + self.name)
+            ax.set_xlabel('Joint Pairs')
+            ax.set_ylabel('Angle Ratio')
+            plt.show()
+
+        return angle_ratio_results
+    
+ 
+    
+    def compute_temporal_coordination_index(self, trial=None, plot=False):
+        """
+        Compute the Temporal Coordination Index (TCI) for the given trial(s).
+        This metric calculates the time difference between the start of the end-effector movement
+        and the start of each joint's movement. The start of the movement is defined as the point
+        where the velocity exceeds 5% of its maximum value.
+        Parameters:
+        -----------
+        trial : int, optional
+            The index of the trial to compute the TCI for. If None, computes TCI for all trials.
+            If -1, computes TCI for the mean of all trials. Default is None.
+        plot : bool, optional
+            If True, plots the TCI results using a bar plot. Default is False.
+        Returns:
+        --------
+        tci_results : pandas.DataFrame
+            A DataFrame containing the TCI results with columns 'trial', 'joints', and 'tci'.
+        Raises:
+        -------
+        ValueError
+            If end-effector data is not available.
+            If the trial index is out of range.
+        """
+        
+        if not self.end_effector:
+            raise ValueError("This metric can only be computed if end-effector data is available.")
+        if trial == None:
+            data = self.get_data_joints_angles()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = [self.get_mean_data()]
+            title = "Mean of all trials"
+
+
+        # Create an empty confusion matrix with the joint angles as columns and rows    
+        tci_results = pd.DataFrame(columns=['trial', 'joints', 'tci'])
+        for i,d in enumerate(data) :
+            #get start of the movement as 5% of the maximum velocity of the end-effector
+            start_of_movement1 = d[(d['ee_velocity'] > 0.05 * d['ee_velocity'].max())]['time'].head(1)
+            
+            for a in self.list_name_angles:
+                #find the start of joint movement as 5% of the maximum velocity of the joint
+                start_joint = d[(d[a+'_velocity'] < 0.05 * d[a+'_velocity'].max())]['time'].head(1)
+                #Compute the TCI
+                tci_results.loc[len(tci_results)] = ({'trial': i, 'joints': f'{a}', 'tci': start_joint.values[0] - start_of_movement1.values[0]})
+        if plot:
+            fig, ax = plt.subplots()
+            sns.barplot(tci_results, x='joints', y='tci', ax=ax)
+            ax.set_title(f'Temporal Coordination Index \n'+title + '\n' + self.name)
+            ax.set_xlabel('Time')
+            ax.set_ylabel('TCI')
+            plt.show()
+
+        return tci_results
+    
+    def compute_zero_crossing(self, trial=None, plot=False):
+            if not self.end_effector:
+                raise ValueError("This metric can only be computed if end-effector data is available.")
+            if trial == None:
+                data = self.get_data_joints_angles()
+                title = "All trials"
+            elif trial >= len(self.data_joints_angles) or trial < -1:
+                raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+            elif trial == -1:
+                data = [self.get_mean_data()]
+                title = "Mean of all trials"
+            else:
+                data = [self.data_joints_angles[trial]]
+                title = f"Trial {trial}"
+
+            zero_crossing_results = pd.DataFrame(columns=['trial', 'joints', 'zero_crossing'])
+
+            for i, d in enumerate(data):
+                start_of_movement = d[(d['ee_velocity'] > 0.05 * d['ee_velocity'].max())]['time'].head(1).values[0]
+                for a in self.list_name_angles:
+                    deactivation_time = d[(d[f'{a}_velocity'] < 0.05 * d[f'{a}_velocity'].max())]['time'].tail(1).values[0]
+                    zero_crossing_results.loc[len(zero_crossing_results)] = {'trial': i, 'joints': a, 'zero_crossing': deactivation_time - start_of_movement}
+
+            if plot:
+                fig, ax = plt.subplots()
+                sns.barplot(data=zero_crossing_results, x='joints', y='zero_crossing', ax=ax)
+                ax.set_title(f'Zero Crossing Time Delay \n{title} \n{self.name}')
+                ax.set_xlabel('Joint')
+                ax.set_ylabel('Time Delay (s)')
+                plt.show()
+
+            return zero_crossing_results
+    
+    def compute_dynamic_time_warping(self, trial=None, plot=False):
+        """
+        Computes the Dynamic Time Warping (DTW) between pairs of joints.
+        Parameters:
+        trial (int): The index of the trial to compute the DTW for. Default is None and uses all the data. If -1, uses the mean joints data
+        plot (bool): Flag to indicate whether to plot the DTW. Default is False.
+        Raises:
+        ValueError: If the trial index is out of range.
+        Returns:
+        dict: A dataframe containing the DTW values for each pair of joints, one row per trial.
+        """
+        if trial == None:
+            data = self.get_data_joints_angles()
+            title = "All trials"
+        elif trial >= len(self.data_joints_angles) or trial < -1:
+            raise ValueError(f"Trial index {trial} out of range. Only {len(self.data_joints_angles)} trials available.")
+        elif trial == -1:
+            data = [self.get_mean_data()]
+            title = "Mean of all trials"
+        else:
+            data = [self.data_joints_angles[trial]]
+            title = f"Trial {trial}"
+        
+        # Create an empty confusion matrix with the joint angles as columns and rows
+        dtw_results = pd.DataFrame(columns=['trial', 'joints', 'dtw'])
+
+        for i,d in enumerate(data) :
+            for a1, a2 in self.angles_combinations:
+                #compute DTW
+                dtw_results.loc[len(dtw_results)] = ({'trial': i, 'joints': f'{a1}_{a2}', 'dtw': fastdtw(d[a1], d[a2])[0]})
+        
+        if plot:
+            fig, ax = plt.subplots()
+            sns.barplot(dtw_results, x='joints', y='dtw', ax=ax)
+            ax.set_title(f'Dynamic Time Warping {a1}-{a2} \n'+title + '\n' + self.name)
+            ax.set_xlabel('Time')
+            ax.set_ylabel('DTW')
+            plt.show()
+        
+        return dtw_results
    
     #%% Getter functions 
 

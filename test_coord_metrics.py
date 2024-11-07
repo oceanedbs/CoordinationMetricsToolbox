@@ -45,4 +45,6 @@ if __name__ == "__main__":
 
     # res_zero_crossing = m1.compute_zero_crossing(trial=None, plot=True)
 
-    res_dtw = m1.compute_dynamic_time_warping(trial= None, plot=True)
+    #res_dtw = m1.compute_dynamic_time_warping(trial= None, plot=True)
+
+    res_jcvpca = m1.compute_jcvpca(m2, plot=True, n_pca=2)

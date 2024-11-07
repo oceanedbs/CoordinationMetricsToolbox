@@ -44,6 +44,18 @@ def generate_palette(n):
     colors = [cmap(i / n) for i in range(n)]
     return colors
 
+def get_pca_frame(data, n_components=2):
+    data_norm = data - data.mean()
+    pca = PCA(n_components=n_components)
+    pca_data = pca.fit(data)
+
+    # pca.components_[0,:] contains the first vector of the PCA frame
+    # pca.components_[1,:] contains the second vector of the PCA frame
+
+    return pca.components_, pca.explained_variance_ratio_
+
+
+
 
 class CoordinationMetrics():
 
@@ -549,7 +561,7 @@ class CoordinationMetrics():
 
         return ici_results
     
-    def get_pca_subspace(self):
+    def get_pca_subspace(self, n_components=None):
         """
         Return the subspace defined by the eigenvectors of the covariance matrix.
 
@@ -559,12 +571,14 @@ class CoordinationMetrics():
             DESCRIPTION.
 
         """
+        if n_components is None:
+            n_components = self.n_dof
         data = self.get_concatenate_data()
         scaler = StandardScaler()
         data_scaled = scaler.fit_transform(data[self.list_name_angles])
-        pca = PCA()
+        pca = PCA(n_components=n_components)
         pca.fit(data_scaled)
-        return pca.components_
+        return pca.components_, pca.explained_variance_ratio_
     
     def compute_distance_between_PCs(self, cm2,trialA=None, trialB=None, plot=False):
         """
@@ -583,8 +597,8 @@ class CoordinationMetrics():
 
         #Compute PCA on both datasets that will define U and V
         res_dist_pca = pd.DataFrame(columns=['datasetA', 'datasetB', 'distance', 'angle'])
-        subspaceA = self.get_pca_subspace() # U
-        subspaceB = cm2.get_pca_subspace() # V
+        subspaceA, _ = self.get_pca_subspace() # U
+        subspaceB, _ = cm2.get_pca_subspace() # V
 
         print(subspaceA)
         print(subspaceB)
@@ -829,6 +843,110 @@ class CoordinationMetrics():
             plt.show()
         
         return dtw_results
+    
+    def compute_jcvpca(self, coord_metric, plot=True, n_pca=None):
+        """
+        Compute Joint Contribution variation based on Principal Component Analysis (JCvPCA).
+        Parameters:
+        coord_metric (CoordinationMetrics): The CoordinationMetrics object for the second dataset.
+        plot (bool): Flag to indicate whether to plot the JCvPCA results. Default is True.
+        Returns:
+        res_jcvpca: A DataFrame containing the JCvPCA values for each pair of joints.
+        """
+
+        if n_pca is None:
+            n_pca = self.n_dof
+
+        # 1) Compute PCA on datasetA, the reference 
+        subspaceA, varA = self.get_pca_subspace(n_components=n_pca)
+
+        # 2) Project 2nd dataset in the PCA subspace
+        dataB = coord_metric.get_concatenate_data()
+        dataB_transformed = np.matmul(dataB[self.list_name_angles].to_numpy(), subspaceA.T)
+
+       
+        
+        # 3) Compute a PCA on these transformed data
+
+        subspaceB, varB = get_pca_frame(dataB_transformed)
+   
+
+        # 4) Express depening on the joints
+        res = np.absolute(np.matmul(subspaceB, subspaceA))
+        sub = res - np.absolute(subspaceA)
+
+        # 5) Compute the difference reported to the explained variance
+        res_prop = np.array([sub[0, :] * varA[0], sub[1, :] * varA[1]]).flatten()
+
+
+
+        if plot:
+            fig, ax = plt.subplots(7)
+            plt.suptitle('Absolute values')
+    
+            ax[0].set_title(" PC1 %.2f" % varA[0])
+            ax[1].set_title(" PC2 %.2f" % varA[1])
+            ax[0].set_ylim([-0.5, 1.1])
+            ax[1].set_ylim([-0.5, 1.1])
+
+            ax[0].set_ylabel(coord_metric.get_name())
+   
+            ax[0].bar(np.arange(len(subspaceA[0, :])), np.absolute(subspaceA[0, :]))
+            ax[0].set_xticks(np.arange(len(self.list_name_angles)))
+            ax[0].set_xticklabels(self.list_name_angles)
+
+            ax[1].bar(np.arange(len(subspaceA[1, :])), np.absolute(subspaceA[1, :]))
+            ax[1].set_xticks(np.arange(len(self.list_name_angles)))
+            ax[1].set_xticklabels(self.list_name_angles)
+
+            ax[2].set_title('PC1')
+            ax[2].set_ylabel(coord_metric.get_name())
+            ax[2].bar(np.arange(len(res[0, :])), res[0, :])
+            ax[2].set_xticks(np.arange(len(self.list_name_angles)))
+            ax[2].set_xticklabels(self.list_name_angles)
+            ax[3].set_title('PC2')
+            ax[3].bar(np.arange(len(res[1, :])), res[1, :])
+            ax[3].set_xticks(np.arange(len(self.list_name_angles)))
+            ax[3].set_xticklabels(self.list_name_angles)
+            ax[2].set_ylim([-0.5, 1.1])
+            ax[3].set_ylim([-0.5, 1.1])
+
+            # print(res)
+            ax[4].set_title('PC1')
+            ax[4].set_ylabel('Diff ' + coord_metric.get_name() +
+                        '- ' + self.get_name())
+
+            ax[4].bar(np.arange(len(sub[0, :])), sub[0, :], color='orange')
+            ax[4].set_xticks(np.arange(len(self.list_name_angles)))
+            ax[4].set_xticklabels(self.list_name_angles)
+
+            ax[5].set_title('PC2')
+            ax[5].bar(np.arange(len(sub[1, :])), sub[1, :], color='orange')
+            ax[5].set_xticks(np.arange(len(self.list_name_angles)))
+            ax[5].set_xticklabels(self.list_name_angles)
+
+            # Create a list of strings that contains n times 'PC1_n' and n times 'PC2_n'
+            bins = [f'PC1_{i}' for i in self.list_name_angles] + [f'PC2_{i}' for i in self.list_name_angles]
+            ax[6].bar(bins, res_prop)
+            ax[6].set_title('Difference reported to the explained variance')
+            ax[4].set_ylim([-0.5, 1.1])
+            ax[5].set_ylim([-0.5, 1.1])
+            ax[6].set_ylim([-0.5, 1.1])
+
+            max_x =max_y= min_x= min_y = 0
+            for axs in ax:
+                lim_x, lim_y = max(axs.get_xlim()), max(axs.get_ylim())
+                if lim_y > max_y:
+                    max_y = lim_y
+                lim_x, lim_y = min(axs.get_xlim()), min(axs.get_ylim())
+                if lim_y < min_y:
+                    min_y = lim_y
+            plt.setp(fig.get_axes(), ylim=(min_y - 0.2, max_y + 0.2))
+
+            plt.show()
+
+        return subspaceA, res, sub
+
    
     #%% Getter functions 
 

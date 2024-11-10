@@ -69,26 +69,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for coordination_metrics_toolbox.metrics</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This toolbox computes different metrics of interjoint coordination using CSV files containing time and joint angle data. </span>
-<span class="sd">A list of files can be provided, with one file per trial. The toolbox computes the following metrics: </span>
-<span class="sd">- Continuous relative phase (CRP)</span>
-<span class="sd">- Angle-angle plots</span>
-<span class="sd">- Angle ratio</span>
-<span class="sd">- Cross-correlation</span>
-<span class="sd">- Dynamic time warping</span>
-<span class="sd">- FADA</span>
-<span class="sd">- Interjoint Coupling Interval (ICI)</span>
-<span class="sd">- PCA</span>
-<span class="sd">- PCA distance</span>
-<span class="sd">- JcvPCA</span>
-<span class="sd">- JsvCRP</span>
-<span class="sd">- RJAC</span>
-<span class="sd">- different statistical tests for inter-joint coordination</span>
-<span class="sd">- Time Zero Crossing</span>
-<span class="sd">- Temporal coordination index</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
@@ -103,14 +84,17 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.generate_palette">[docs]</a>
 <span class="k">def</span> <span class="nf">generate_palette</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generate a palette with n colors using the viridis colormap.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters:</span>
-<span class="sd">    n (int): Number of colors to generate.</span>
-<span class="sd">    </span>
-<span class="sd">    Returns:</span>
-<span class="sd">    list: List of colors in RGB format.</span>
+<span class="sd">    Generate a color palette with `n` colors using the &#39;viridis&#39; colormap.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    n : int</span>
+<span class="sd">        The number of colors to generate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    colors : list</span>
+<span class="sd">        A list of RGBA color tuples.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    
     <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">cmap</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">colors</span></div>
@@ -119,6 +103,25 @@
 <div class="viewcode-block" id="get_pca_frame">
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.get_pca_frame">[docs]</a>
 <span class="k">def</span> <span class="nf">get_pca_frame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform Principal Component Analysis (PCA) on the given data and return the PCA frame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    data : array-like, shape (n_samples, n_features)</span>
+<span class="sd">        The input data to perform PCA on.</span>
+<span class="sd">    n_components : int, optional, default=2</span>
+<span class="sd">        The number of principal components to compute.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    components : array, shape (n_components, n_features)</span>
+<span class="sd">        The principal components of the data.</span>
+<span class="sd">    explained_variance_ratio_ : array, shape (n_components,)</span>
+<span class="sd">        The amount of variance explained by each of the selected components.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    The function normalizes the data by subtracting the mean before performing PCA.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">data_norm</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components</span><span class="p">)</span>
     <span class="n">pca_data</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -135,67 +138,121 @@
 <div class="viewcode-block" id="CoordinationMetrics">
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics">[docs]</a>
 <span class="k">class</span> <span class="nc">CoordinationMetrics</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class provides a toolbox for computing various coordination metrics from joint angle data. </span>
+
+<span class="sd">    It includes methods for loading data, setting angle names, computing velocities, and various </span>
+<span class="sd">    coordination metrics such as continuous relative phase, principal component analysis, </span>
+<span class="sd">    cross-correlation, and more.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    list_files_angles : list</span>
+<span class="sd">        List of file paths to the CSV files containing joint angle data.</span>
+<span class="sd">    list_name_angles : list </span>
+<span class="sd">        List of names corresponding to the angles.</span>
+<span class="sd">    name : str  </span>
+<span class="sd">        Name of the dataset instance.</span>
+<span class="sd">    end_effector : bool</span>
+<span class="sd">        Flag indicating if the data contains end-effector data.</span>
+<span class="sd">    deg : bool</span>
+<span class="sd">        Flag indicating if the angles are in degrees.</span>
+<span class="sd">    freq : float</span>
+<span class="sd">        Frequency of the data.</span>
+<span class="sd">    data_joints_angles : list</span>
+<span class="sd">        List of pandas DataFrames containing joint angle data.</span>
+<span class="sd">    list_name_velocities : list</span>
+<span class="sd">        List of names of the velocities of the angles.</span>
+<span class="sd">    angles_combinations : list</span>
+<span class="sd">        List of all possible combinations of angles.</span>
+<span class="sd">    n_dof : int</span>
+<span class="sd">        Number of degrees of freedom.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; list_files_angles = [&quot;data/angles1.csv&quot;, &quot;data/angles2.csv&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; list_name_angles = [&quot;angle1&quot;, &quot;angle2&quot;, &quot;angle3&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; m = CoordinationMetrics(list_files_angles, list_name_angles, &quot;Test Data&quot;, end_effector = False, deg=False)</span>
+<span class="sd">    &gt;&gt;&gt; m.compute_continuous_relative_phase(trial=4, plot=True)  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_files_angles</span><span class="p">,</span> <span class="n">list_name_angles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_effector</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="n">deg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the CoordinationMetricsToolbox.</span>
-<span class="sd">        Parameters:</span>
-<span class="sd">        list_files_angles (list): List of file paths containing angle data.</span>
-<span class="sd">        list_name_angles (list, optional): List of names corresponding to the angles. Defaults to None. If no names are passed, it is supposed that the first line containes the time + the name of the joints angles.</span>
-<span class="sd">        name (str, optional): Name of the dataset instance. Will be printed as a header of plots. Defaults to None.</span>
-<span class="sd">        end_effector (bool, optional): Flag indicating if the data contains end-effector data. Defaults to False. If end effector data are contained it is supposed that there are 3 columns : x, y, z.</span>
-<span class="sd">        deg (bool, optional): Flag indicating if the angles are in degrees. Defaults to True.</span>
-<span class="sd">        freq (float, optional): Frequency of the data. If None is passed, the sampling frequency will be computed based on the time column. Defaults to None.</span>
+<span class="sd">        Initialize the CoordinationMetrics object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        list_files_angles : list</span>
+<span class="sd">            List of file paths to the CSV files containing joint angle data.</span>
+<span class="sd">        list_name_angles : list, optional</span>
+<span class="sd">            List of names corresponding to the angles. Defaults to None.</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the dataset instance. Defaults to None.</span>
+<span class="sd">        end_effector : bool, optional</span>
+<span class="sd">            Flag indicating if the data contains end-effector data. Defaults to False.</span>
+<span class="sd">        deg : bool, optional</span>
+<span class="sd">            Flag indicating if the angles are in degrees. Defaults to True.</span>
+<span class="sd">        freq : float, optional</span>
+<span class="sd">            Frequency of the data. Defaults to None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
 
         <span class="bp">self</span><span class="o">.</span><span class="n">list_files_angles</span> <span class="o">=</span> <span class="n">list_files_angles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">list_name_angles</span> <span class="o">=</span> <span class="n">list_name_angles</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Default name</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Dataset&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_effector</span> <span class="o">=</span> <span class="n">end_effector</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">deg</span> <span class="o">=</span> <span class="n">deg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span>
 
+        <span class="c1"># Load data and initialize fields correctly</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_csv_files</span><span class="p">()</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">set_angle_names</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_velocities_names</span><span class="p">()</span> 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_angles_combinations</span><span class="p">()</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">rename_time_column</span><span class="p">()</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">set_n_dof</span><span class="p">()</span>
 
+        <span class="c1"># Convert angles to radians if necessary</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">deg</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">convert_angles_to_radians</span><span class="p">()</span>
 
+        <span class="c1"># If end effector is provided, rename columns and compute velocity</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_effector</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rename_end_effector_columns</span><span class="p">()</span>  
             <span class="bp">self</span><span class="o">.</span><span class="n">compute_end_effector_velocity</span><span class="p">()</span>
-        
 
+        <span class="c1"># Compute angular velocity of the joints</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_joints_angular_velocity</span><span class="p">()</span>  
 
         <span class="k">return</span> <span class="kc">None</span>
 
-<span class="c1">#%% Load data and initialize fields correctly </span>
 
 <div class="viewcode-block" id="CoordinationMetrics.load_csv_files">
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.load_csv_files">[docs]</a>
     <span class="k">def</span> <span class="nf">load_csv_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loads CSV files from a specified directory.</span>
+<span class="sd">        Loads joint angle data from a list of CSV files.</span>
 
-<span class="sd">        This method reads all CSV files in the self.list_files_angles and processes them</span>
-<span class="sd">        into a usable format for further analysis.</span>
+<span class="sd">        This method reads CSV files specified in `self.list_files_angles` and </span>
+<span class="sd">        stores the data in `self.data_joints_angles`. Each file is expected to </span>
+<span class="sd">        have a header row.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            list: A list of dataframes, each containing the data from a CSV file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>        
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: If any file in `self.list_files_angles` does not exist.</span>
+<span class="sd">            ValueError: If any file in `self.list_files_angles` is not a CSV file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create an empty list to store the data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_joints_angles</span> <span class="o">=</span> <span class="p">[]</span>
 
+        <span class="c1"># Load the data from each file</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_files_angles</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
@@ -210,14 +267,24 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.set_angle_names">[docs]</a>
     <span class="k">def</span> <span class="nf">set_angle_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the names of the angles if they are not already set.</span>
-<span class="sd">        This method checks if the attribute `list_name_angles` is None. If it is,</span>
-<span class="sd">        it assigns the names of the angles from the first row of the `data_joints_angles`</span>
-<span class="sd">        DataFrame, excluding the first column that should be the time.</span>
-<span class="sd">        Attributes:</span>
-<span class="sd">            list_name_angles (list or None): A list to store the names of the angles.</span>
-<span class="sd">            data_joints_angles (list of DataFrames): A list containing DataFrames with joint angle data.</span>
+<span class="sd">        Sets the names of the angles based on the data provided.</span>
+
+<span class="sd">        This method assigns the list of angle names to the `list_name_angles` attribute.</span>
+<span class="sd">        If `list_name_angles` is None and `end_effector` is False, it sets `list_name_angles`</span>
+<span class="sd">        to all columns of `data_joints_angles[0]` except the first one.</span>
+<span class="sd">        If `list_name_angles` is None and `end_effector` is True, it sets `list_name_angles`</span>
+<span class="sd">        to all columns of `data_joints_angles[0]` except the first one and the last three.</span>
+<span class="sd">        </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        list_name_angles : list </span>
+<span class="sd">            The list of angle names.</span>
+<span class="sd">        data_joints_angles : list</span>
+<span class="sd">            A list containing data frames with joint angles.</span>
+<span class="sd">        end_effector : bool</span>
+<span class="sd">            A flag indicating whether the end effector is considered.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_name_angles</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_effector</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">list_name_angles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_joints_angles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
@@ -233,7 +300,7 @@
 <span class="sd">        This method sets the names of the velocities of the angles by appending &quot;_velocity&quot;</span>
 <span class="sd">        to the names of the angles.</span>
 
-<span class="sd">        Attributes:</span>
+<span class="sd">        Parameters:</span>
 <span class="sd">            list_name_angles (list): A list containing the names of the angles.</span>
 <span class="sd">            list_name_velocities (list): A list containing the names of the velocities of the angles.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -249,7 +316,7 @@
 <span class="sd">        This method generates all possible combinations of angles from the list of angle names</span>
 <span class="sd">        and stores them in the `angles_combinations` attribute.</span>
 
-<span class="sd">        Attributes:</span>
+<span class="sd">        Parameters:</span>
 <span class="sd">            list_name_angles (list): A list containing the names of the angles.</span>
 <span class="sd">            angles_combinations (list): A list containing all possible combinations of angles.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -280,7 +347,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Renames the columns of the end-effector data.</span>
 
-<span class="sd">        This method renames the columns of the end-effector data to &quot;x&quot;, &quot;y&quot;, and &quot;z&quot;.</span>
+<span class="sd">        This method renames the columns of the end-effector data to &quot;ee_x&quot;, &quot;ee_y&quot;, and &quot;ee_z&quot;.</span>
+<span class="sd">        The function iterates over all dataframes containing joints angles.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
@@ -298,7 +366,8 @@
 
 <span class="sd">        This method computes the velocity of the end-effector data by taking the derivative of the</span>
 <span class="sd">        &quot;ee_x&quot;, &quot;ee_y&quot;, and &quot;ee_z&quot; columns. The velocity is stored in the &quot;ee_x_velocity&quot;,</span>
-<span class="sd">        &quot;ee_y_velocity&quot;, and &quot;ee_z_velocity&quot; columns.</span>
+<span class="sd">        &quot;ee_y_velocity&quot;, and &quot;ee_z_velocity&quot; columns. The global end-effector velocity is also computed</span>
+<span class="sd">        and stored in the &quot;ee_velocity&quot; column. </span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
@@ -317,9 +386,13 @@
 <span class="sd">        Sets the number of degrees of freedom (n_dof) for the object.</span>
 <span class="sd">        This method calculates the number of degrees of freedom by determining the length of the </span>
 <span class="sd">        list_name_angles attribute and assigns this value to the n_dof attribute.</span>
-<span class="sd">        Attributes:</span>
+
+<span class="sd">        Parameters:</span>
 <span class="sd">            n_dof (int): The number of degrees of freedom.</span>
 <span class="sd">            list_name_angles (list): A list containing the names of the angles.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_name_angles</span><span class="p">)</span></div>
@@ -330,10 +403,15 @@
     <span class="k">def</span> <span class="nf">convert_angles_to_radians</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts the joint angles from degrees to radians.</span>
+
 <span class="sd">        This method converts the joint angles from degrees to radians by multiplying the values</span>
 <span class="sd">        in the `data_joints_angles` attribute by the conversion factor pi/180.</span>
-<span class="sd">        Attributes:</span>
+
+<span class="sd">        Parameters:</span>
 <span class="sd">            data_joints_angles (list of DataFrames): A list containing DataFrames with joint angle data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_joints_angles</span><span class="p">:</span>
@@ -348,13 +426,19 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_joints_angular_velocity">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_joints_angular_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the angular velocity of the joints.</span>
-<span class="sd">        This method computes the angular velocity of the joints by taking the derivative of the joint angles.</span>
-<span class="sd">        The angular velocity is stored in the attribute `data_joints_angular_velocity`.</span>
-<span class="sd">        Attributes:</span>
-<span class="sd">            data_joints_angles (list of DataFrames): A list containing DataFrames with joint angle data.</span>
-<span class="sd">            data_joints_angular_velocity (list of DataFrames): A list containing DataFrames with joint angular velocity data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Computes the angular velocity for each joint angle in the dataset.</span>
+
+<span class="sd">        This method calculates the angular velocity for each joint angle by taking the difference</span>
+<span class="sd">        between consecutive angle values and dividing by the time difference. The resulting angular</span>
+<span class="sd">        velocities are stored in new columns with the suffix &#39;_velocity&#39;.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        
 
         <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_joints_angles</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">vel_col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_name_angles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_name_velocities</span><span class="p">):</span>
@@ -368,14 +452,19 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.plot_joints_angles">[docs]</a>
     <span class="k">def</span> <span class="nf">plot_joints_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Plots the joint angles for the specified trial.</span>
+<span class="sd">        Plots the joint angles for the specified trial, all trials, or mean trial.</span>
+
 <span class="sd">        Parameters:</span>
-<span class="sd">        trial (int): The index of the trial to plot. If None, plots all trials. If -1  plots the mean of all trials.</span>
+<span class="sd">            trial (int, optional): The index of the trial to plot. If None, plots all trials. If -1, plots the mean of all trials. Defaults to None.</span>
+<span class="sd">            </span>
 <span class="sd">        Raises:</span>
-<span class="sd">        ValueError: If the trial index is out of range.</span>
-<span class="sd">        Returns:</span>
-<span class="sd">        None</span>
+<span class="sd">            ValueError: If the trial index is out of range.</span>
+<span class="sd">            The plot will display the joint angles over time for the specified trial(s).</span>
+<span class="sd">            The x-axis represents time, and the y-axis represents the joint angles.</span>
+<span class="sd">            The y-axis label will indicate whether the angles are in degrees or radians.</span>
+<span class="sd">            The plot title will include the name of the trial(s) and, if available, the name of the dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
 
         <span class="k">if</span> <span class="n">trial</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_joints_angles</span>
@@ -390,7 +479,7 @@
             <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Trial </span><span class="si">{</span><span class="n">trial</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">generate_palette</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">generate_palette</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span><span class="p">)</span>
         <span class="c1">#plot all trials</span>
         <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">angle</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_name_angles</span><span class="p">):</span>
@@ -413,12 +502,15 @@
     <span class="k">def</span> <span class="nf">plot_joints_angular_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>    
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the joint angular velocities for the specified trial.</span>
+
 <span class="sd">        Parameters:</span>
-<span class="sd">        trial (int): The index of the trial to plot. If None, plots all trials. If -1  plots the mean of all trials.</span>
+<span class="sd">            trial (int): The index of the trial to plot. If None, plots all trials. If -1  plots the mean of all trials.</span>
+
 <span class="sd">        Raises:</span>
-<span class="sd">        ValueError: If the trial index is out of range.</span>
+<span class="sd">            ValueError: If the trial index is out of range.</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">        None</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">trial</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_joints_angles</span>
@@ -455,15 +547,32 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_continuous_relative_phase">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_continuous_relative_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the continuous relative phase (CRP) between pairs of joints.</span>
+<span class="sd">        Compute the Continuous Relative Phase (CRP) for joint angles.</span>
+
 <span class="sd">        Parameters:</span>
-<span class="sd">        trial (int): The index of the trial to compute the CRP for. None = Compute the overall CRP. If -1, uses the mean joints data</span>
-<span class="sd">        plot (bool): Flag to indicate whether to plot the CRP. Default is False.</span>
-<span class="sd">        Raises:</span>
-<span class="sd">        ValueError: If the trial index is out of range.</span>
+<span class="sd">            trial : int, optional</span>
+<span class="sd">                Index of the trial to compute the CRP for. If None, computes CRP for all trials.</span>
+<span class="sd">                If -1, computes CRP for the mean of all trials. Default is None.</span>
+<span class="sd">            plot : bool, optional</span>
+<span class="sd">            If True, plots the CRP for the specified trial(s). Default is False.</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">        dict: A dataframe containing the CRP values for each pair of joints, one row per trial.</span>
+<span class="sd">            data : list of pandas.DataFrame</span>
+<span class="sd">                List of DataFrames containing the joint angles and their computed phases, </span>
+<span class="sd">                as well as the CRP for the specified trial(s).</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError</span>
+<span class="sd">                If the specified trial index is out of range.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            The function computes the phase for each joint using the arctangent of the </span>
+<span class="sd">            joint angle velocity and the joint angle. It then computes the CRP between </span>
+<span class="sd">            specified pairs of joints (angles_combinations) by unwrapping the difference </span>
+<span class="sd">            between their phases. If plotting is enabled, it generates plots of the CRP </span>
+<span class="sd">            over time for the specified trial(s).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
 
         <span class="k">if</span> <span class="n">trial</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_joints_angles</span>
@@ -505,16 +614,17 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_angle_angle_plot">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_angle_angle_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates an angle-angle plot for the specified trial.</span>
+<span class="sd">        Generates an angle-angle plot for joint angles data.</span>
+
 <span class="sd">        Parameters:</span>
-<span class="sd">        trial (int, optional): The index of the trial to plot. If trial is None, </span>
-<span class="sd">                       concatenated data from all trials is used. </span>
-<span class="sd">                       If trial is -1, mean data from all trials is used. </span>
-<span class="sd">                       Defaults to None.</span>
-<span class="sd">        Raises:</span>
-<span class="sd">        ValueError: If the trial index is out of range.</span>
+<span class="sd">            trial (int, optional): The index of the trial to plot. If None, all trials are concatenated and plotted.</span>
+<span class="sd">                        If -1, the mean of all trials is plotted. Defaults to None.</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">        None: This function does not return any value. It displays a plot.</span>
+<span class="sd">            DataFrame: The data used for plotting.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the trial index is out of range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="n">trial</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
@@ -540,15 +650,26 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_principal_component_analysis">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_principal_component_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the principal component analysis (PCA) for the joint angles.</span>
+<span class="sd">        Compute Principal Component Analysis (PCA) on joint angle data.</span>
+
 <span class="sd">        Parameters:</span>
-<span class="sd">        trial (int): The index of the trial to compute the PCA for. Default is None and uses all the trials. If -1, uses the mean joints data</span>
-<span class="sd">        plot (bool): Flag to indicate whether to plot the PCA. Default is False.</span>
-<span class="sd">        Raises:</span>
-<span class="sd">        ValueError: If the trial index is out of range.</span>
+<span class="sd">            trial : int, optional</span>
+<span class="sd">                Index of the trial to analyze. If None, all trials are concatenated.</span>
+<span class="sd">                If -1, the mean of all trials is used. Default is None.</span>
+<span class="sd">            plot : bool, optional</span>
+<span class="sd">                If True, plots the PCA components. Default is False.</span>
+<span class="sd">            n_components : int, optional</span>
+<span class="sd">                Number of principal components to compute. Default is 2.</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">        dict: A dataframe containing the PCA values for each pair of joints, one row per trial.</span>
+<span class="sd">            pca : PCA object</span>
+<span class="sd">                Fitted PCA object containing the principal components.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError</span>
+<span class="sd">                If the trial index is out of range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="k">if</span> <span class="n">trial</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_concatenate_data</span><span class="p">()</span>
             <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;All trials&quot;</span>
@@ -586,16 +707,24 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_cross_correlation">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_cross_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the cross-correlation between pairs of joints.</span>
-<span class="sd">        Parameters:</span>
-<span class="sd">        trial (int): The index of the trial to compute the cross-correlation for. Default is None and uses all the data. If -1, uses the mean joints data</span>
-<span class="sd">        plot (bool): Flag to indicate whether to plot the cross-correlation. Default is False.</span>
-<span class="sd">        Raises:</span>
-<span class="sd">        ValueError: If the trial index is out of range.</span>
-<span class="sd">        Returns:</span>
-<span class="sd">        dict: A dataframe containing the cross-correlation values for each pair of joints, one row per trial.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Compute the cross-correlation between joint angles for a given trial or all trials.</span>
 
+<span class="sd">        Parameters:</span>
+<span class="sd">            trial : int, optional </span>
+<span class="sd">                Index of the trial to compute cross-correlation for. If None, computes for all trials. If -1, computes for the mean of all trials.  Defaults to None.</span>
+<span class="sd">            plot : bool, optional</span>
+<span class="sd">                If True, plots the cross-correlation results. Defaults to False.</span>
+<span class="sd">            normalize : bool, optional</span>
+<span class="sd">                If True, normalizes the data before computing cross-correlation. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            data : list</span>
+<span class="sd">                A list of DataFrames containing the cross-correlation results for each trial.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the trial index is out of range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+       
         <span class="k">if</span> <span class="n">trial</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_joints_angles</span><span class="p">()</span>
             <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;All trials&quot;</span>
@@ -639,15 +768,29 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_interjoint_coupling_interval">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_interjoint_coupling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the Interjoint Coupling Interval (ICI) between pairs of joints.</span>
+<span class="sd">        Computes the Interjoint Coupling Interval (ICI) for the given trial or all trials.</span>
+
 <span class="sd">        Parameters:</span>
-<span class="sd">        trial (int): The index of the trial to compute the ICI for. Default is None and uses all the data. If -1, uses the mean joints data</span>
-<span class="sd">        plot (bool): Flag to indicate whether to plot the ICI. Default is False.</span>
-<span class="sd">        Raises:</span>
-<span class="sd">        ValueError: If the trial index is out of range.</span>
+<span class="sd">            trial : int, optional</span>
+<span class="sd">                The index of the trial to compute the ICI for. If None, computes the ICI for all trials.</span>
+<span class="sd">                If -1, computes the ICI for the mean of all trials. Default is None.</span>
+<span class="sd">            plot : bool, optional</span>
+<span class="sd">                If True, plots the ICI results using a bar plot. Default is False.</span>
+<span class="sd">        </span>
 <span class="sd">        Returns:</span>
-<span class="sd">        dict: A dataframe containing the ICI values for each pair of joints, one row per trial.</span>
+<span class="sd">            pd.DataFrame</span>
+<span class="sd">                A DataFrame containing the ICI results with columns &#39;trial&#39;, &#39;joints&#39;, and &#39;ICI&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError</span>
+<span class="sd">                If the trial index is out of range.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes:</span>
+<span class="sd">            The ICI is computed as the difference in deactivation times between two joints.</span>
+<span class="sd">            The deactivation time is defined as the first element of the last block of consecutive indices</span>
+<span class="sd">            where the joint&#39;s velocity is less than 5% of its maximum velocity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+         
         <span class="k">if</span> <span class="n">trial</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> 
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_joints_angles</span><span class="p">()</span>
             <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;All trials&quot;</span>
@@ -696,14 +839,15 @@
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_pca_subspace">[docs]</a>
     <span class="k">def</span> <span class="nf">get_pca_subspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the subspace defined by the eigenvectors of the covariance matrix.</span>
+<span class="sd">        Perform PCA (Principal Component Analysis) on the concatenated data and return the PCA-transformed data.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        eigenvectors : TYPE</span>
-<span class="sd">            DESCRIPTION.</span>
-
+<span class="sd">        Parameters:</span>
+<span class="sd">        n_components (int, optional): Number of principal components to keep. If None, use the number of degrees of freedom (self.n_dof).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">        DataFrame: A DataFrame containing the PCA-transformed data with the specified number of components.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="k">if</span> <span class="n">n_components</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">n_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dof</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_concatenate_data</span><span class="p">()</span>
@@ -721,11 +865,14 @@
 <span class="sd">        From Bockemühl Till, Troje NF, Dürr V. Inter‑joint coupling and joint angle synergies of human catching movements. Hum Mov Sci. 2010;29(1):73–93.</span>
 <span class="sd">        https:// doi. org/ 10. 1016/j. humov. 2009. 03. 003.</span>
 <span class="sd">        Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s being the minimum singular value of the matrix W = min(U^T V ).</span>
+<span class="sd">        </span>
 <span class="sd">        Parameters:</span>
 <span class="sd">        trial (int): The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data</span>
 <span class="sd">        plot (bool): Flag to indicate whether to plot the distance between PCs. Default is False.</span>
+<span class="sd">        </span>
 <span class="sd">        Raises:</span>
 <span class="sd">        ValueError: If the trial index is out of range.</span>
+<span class="sd">        </span>
 <span class="sd">        Returns:</span>
 <span class="sd">        res_dist_pca: A dataframe containing the distance between PCs for each pair of joints, one row per trial.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -763,12 +910,15 @@
     <span class="k">def</span> <span class="nf">compute_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the correlation between pairs of joints.</span>
+<span class="sd">        </span>
 <span class="sd">        Parameters:</span>
 <span class="sd">        trial (int): The index of the trial to compute the correlation for. Default is None and uses all the data. If -1, uses the mean joints data</span>
 <span class="sd">        plot (bool): Flag to indicate whether to plot the correlation. Default is False.</span>
 <span class="sd">        type (str): Type of correlation to compute. Default is &#39;pearson&#39;. Other options are &#39;spearman&#39; and &#39;kendall&#39;.</span>
+<span class="sd">        </span>
 <span class="sd">        Raises:</span>
 <span class="sd">        ValueError: If the trial index is out of range.</span>
+<span class="sd">        </span>
 <span class="sd">        Returns:</span>
 <span class="sd">        dict: A dataframe containing the correlation values for each pair of joints, one row per trial.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -861,22 +1011,22 @@
 <span class="sd">        This metric calculates the time difference between the start of the end-effector movement</span>
 <span class="sd">        and the start of each joint&#39;s movement. The start of the movement is defined as the point</span>
 <span class="sd">        where the velocity exceeds 5% of its maximum value.</span>
+<span class="sd">        </span>
 <span class="sd">        Parameters:</span>
 <span class="sd">        -----------</span>
 <span class="sd">        trial : int, optional</span>
-<span class="sd">            The index of the trial to compute the TCI for. If None, computes TCI for all trials.</span>
-<span class="sd">            If -1, computes TCI for the mean of all trials. Default is None.</span>
+<span class="sd">            The index of the trial to compute the TCI for. If None, computes TCI for all trials. If -1, computes TCI for the mean of all trials. Default is None.</span>
 <span class="sd">        plot : bool, optional</span>
 <span class="sd">            If True, plots the TCI results using a bar plot. Default is False.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">        --------</span>
 <span class="sd">        tci_results : pandas.DataFrame</span>
 <span class="sd">            A DataFrame containing the TCI results with columns &#39;trial&#39;, &#39;joints&#39;, and &#39;tci&#39;.</span>
+<span class="sd">        </span>
 <span class="sd">        Raises:</span>
 <span class="sd">        -------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If end-effector data is not available.</span>
-<span class="sd">            If the trial index is out of range.</span>
+<span class="sd">            If end-effector data is not available. If the trial index is out of range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_effector</span><span class="p">:</span>

@@ -36,3 +36,4 @@ Columns in italic (ee_x, ee_y, ee_z) which are the position of the end-effector 
 
 The file generate_testing_dataset.py can also be used to generate different datasets based on sinusoids. You can personalize this file to generate your own datasets. 
 
+The full documentation of the toolbox can be found [here](https://oceanedbs.github.io/CoordinationMetricsToolbox/index.html)

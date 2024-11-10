@@ -14,12 +14,12 @@ def generate_palette(n):
     Generate a color palette with `n` colors using the 'viridis' colormap.
 
     Parameters
-    n : int
-        The number of colors to generate.
+        n : int
+            The number of colors to generate.
 
     Returns
-    colors : list
-        A list of RGBA color tuples.
+        colors : list
+            A list of RGBA color tuples.
     """
     
     cmap = plt.get_cmap('viridis')
@@ -31,19 +31,19 @@ def get_pca_frame(data, n_components=2):
     Perform Principal Component Analysis (PCA) on the given data and return the PCA frame.
 
     Parameters
-    data : array-like, shape (n_samples, n_features)
-        The input data to perform PCA on.
-    n_components : int, optional, default=2
-        The number of principal components to compute.
+        data : array-like, shape (n_samples, n_features)
+            The input data to perform PCA on.
+        n_components : int, optional, default=2
+            The number of principal components to compute.
 
     Returns
-    components : array, shape (n_components, n_features)
-        The principal components of the data.
-    explained_variance_ratio_ : array, shape (n_components,)
-        The amount of variance explained by each of the selected components.
+        components : array, shape (n_components, n_features)
+            The principal components of the data.
+        explained_variance_ratio_ : array, shape (n_components,)
+            The amount of variance explained by each of the selected components.
 
     Notes
-    The function normalizes the data by subtracting the mean before performing PCA.
+        The function normalizes the data by subtracting the mean before performing PCA.
     """
 
     data_norm = data - data.mean()
@@ -190,15 +190,14 @@ class CoordinationMetrics():
         to all columns of `data_joints_angles[0]` except the first one.
         If `list_name_angles` is None and `end_effector` is True, it sets `list_name_angles`
         to all columns of `data_joints_angles[0]` except the first one and the last three.
-        
 
         Parameters
-        list_name_angles : list 
-            The list of angle names.
-        data_joints_angles : list
-            A list containing data frames with joint angles.
-        end_effector : bool
-            A flag indicating whether the end effector is considered.
+            list_name_angles : list 
+                The list of angle names.
+            data_joints_angles : list
+                A list containing data frames with joint angles.
+            end_effector : bool
+                A flag indicating whether the end effector is considered.
         """
         
 
@@ -411,7 +410,7 @@ class CoordinationMetrics():
             title = f"Trial {trial}"
 
         fig, ax = plt.subplots()
-        c = ut.generate_palette(self.n_dof)
+        c = generate_palette(self.n_dof)
         # plot all trials
         for df in data:
             for i, angle in enumerate(self.list_name_angles):
@@ -707,14 +706,16 @@ class CoordinationMetrics():
     
     def get_pca_subspace(self, n_components=None):
         """
-        Perform PCA (Principal Component Analysis) on the concatenated data and return the PCA-transformed data.
-
+        Computes the PCA (Principal Component Analysis) subspace for the given data.
+        
         Parameters:
-        n_components (int, optional): Number of principal components to keep. If None, use the number of degrees of freedom (self.n_dof).
+            n_components (int, optional): Number of principal components to keep. 
+                          If None, the number of components will be set to the number of degrees of freedom (self.n_dof).
         
         Returns:
-        DataFrame: A DataFrame containing the PCA-transformed data with the specified number of components.
+            DataFrame: A DataFrame containing the PCA-transformed data with the specified number of components.
         """
+        
         
         if n_components is None:
             n_components = self.n_dof
@@ -725,21 +726,25 @@ class CoordinationMetrics():
         return get_pca_frame(data_scaled, n_components)
     
     def compute_distance_between_PCs(self, cm2,trialA=None, trialB=None, plot=False):
+        
         """
         Computes the distance between the principal components (PCs) of the joint angles.
+        
         From Bockemühl Till, Troje NF, Dürr V. Inter‑joint coupling and joint angle synergies of human catching movements. Hum Mov Sci. 2010;29(1):73–93.
         https:// doi. org/ 10. 1016/j. humov. 2009. 03. 003.
         Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s being the minimum singular value of the matrix W = min(U^T V ).
         
         Parameters:
-        trial (int): The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data
-        plot (bool): Flag to indicate whether to plot the distance between PCs. Default is False.
+            trial : int
+                The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data
+            plot : bool
+                Flag to indicate whether to plot the distance between PCs. Default is False.
         
         Raises:
-        ValueError: If the trial index is out of range.
+            ValueError: If the trial index is out of range.
         
         Returns:
-        res_dist_pca: A dataframe containing the distance between PCs for each pair of joints, one row per trial.
+            res_dist_pca: A dataframe containing the distance between PCs for each pair of joints, one row per trial.
         """
 
         #Compute PCA on both datasets that will define U and V
@@ -771,19 +776,29 @@ class CoordinationMetrics():
         
     def compute_correlation(self, trial=None, plot=False, type='pearson'):
         """
-        Computes the correlation between pairs of joints.
-        
+        Compute the correlation between joint angles for a given trial or all trials.
+
         Parameters:
-        trial (int): The index of the trial to compute the correlation for. Default is None and uses all the data. If -1, uses the mean joints data
-        plot (bool): Flag to indicate whether to plot the correlation. Default is False.
-        type (str): Type of correlation to compute. Default is 'pearson'. Other options are 'spearman' and 'kendall'.
-        
-        Raises:
-        ValueError: If the trial index is out of range.
+            trial : int, optional
+                The index of the trial to compute the correlation for. If None, computes the correlation for all trials.
+                If -1, computes the correlation for the mean of all trials. Default is None.
+            plot : bool, optional
+                If True, plots the correlation results. Default is False.
+            type : str, optional
+                The type of correlation to compute. Options are 'pearson', 'kendall', or 'spearman'. Default is 'pearson'.
         
         Returns:
-        dict: A dataframe containing the correlation values for each pair of joints, one row per trial.
+            pd.DataFrame
+                A DataFrame containing the correlation results with columns ['trial', 'joints', 'correlation'].
+        
+        Raises:
+            ValueError
+                If the trial index is out of range.
+        
+        Notes:
+            The method computes the correlation between all combinations of joint angles specified in `self.angles_combinations`.
         """
+        
         if trial == None:
             data = self.get_data_joints_angles()
             title = "All trials"
@@ -816,15 +831,28 @@ class CoordinationMetrics():
     
     def compute_angle_ratio(self, trial=None, plot=False):
         """
-        Computes the angle ratio of pairs of joints at the maximum velocity of the end-effector time point.
+        Compute the ratio of joint angles at the time of maximum end-effector velocity.
+
         Parameters:
-        trial (int): The index of the trial to compute the angle ratio for. Default is None and uses all the data. If -1, uses the mean joints data
-        plot (bool): Flag to indicate whether to plot the angle ratio. Default is False.
-        Raises:
-        ValueError: If the trial index is out of range.
+            trial : int, optional
+                The index of the trial to compute the angle ratio for. If None, computes for all trials.
+                If -1, computes for the mean of all trials. Default is None.
+            plot : bool, optional
+                If True, plots the angle ratios. Default is False.
+        
         Returns:
-        dict: A dataframe containing the angle ratio values for each pair of joints, one row per trial.
+            pd.DataFrame
+                A DataFrame containing the trial index, joint pairs, and their corresponding angle ratios.
+        
+        Raises:
+            ValueError
+                If end-effector data is not available or if the trial index is out of range.
+       
+        Notes:
+            The angle ratio is computed as the ratio of the angles of two joints at the time point where the end-effector velocity is maximum.
+            If the angle of the second joint is zero, the ratio is set to NaN.
         """
+        
         if not self.end_effector:
             raise ValueError("This metric can only be computed if end-effector data is available.")
         if trial == None:
@@ -869,20 +897,18 @@ class CoordinationMetrics():
         where the velocity exceeds 5% of its maximum value.
         
         Parameters:
-        -----------
-        trial : int, optional
-            The index of the trial to compute the TCI for. If None, computes TCI for all trials. If -1, computes TCI for the mean of all trials. Default is None.
-        plot : bool, optional
-            If True, plots the TCI results using a bar plot. Default is False.
+            trial : int, optional
+                The index of the trial to compute the TCI for. If None, computes TCI for all trials. If -1, computes TCI for the mean of all trials. Default is None.
+            plot : bool, optional
+                If True, plots the TCI results using a bar plot. Default is False.
+
         Returns:
-        --------
-        tci_results : pandas.DataFrame
-            A DataFrame containing the TCI results with columns 'trial', 'joints', and 'tci'.
+            tci_results : pandas.DataFrame
+                A DataFrame containing the TCI results with columns 'trial', 'joints', and 'tci'.
         
         Raises:
-        -------
-        ValueError
-            If end-effector data is not available. If the trial index is out of range.
+            ValueError
+                If end-effector data is not available. If the trial index is out of range.
         """
         
         if not self.end_effector:
@@ -919,6 +945,30 @@ class CoordinationMetrics():
         return tci_results
     
     def compute_zero_crossing(self, trial=None, plot=False):
+            """
+            Compute the zero crossing time delay for joint angles.
+            
+            This method calculates the time delay between the start of movement and the 
+            deactivation time for each joint angle. The start of movement is defined as 
+            the time when the end-effector velocity exceeds 5% of its maximum value. The 
+            deactivation time for each joint is defined as the time when the joint's 
+            velocity drops below 5% of its maximum value.
+
+            Parameters:
+                trial : int, optional
+                    The index of the trial to compute the zero crossing for. If None, computes for all trials. If -1, computes for the mean of all trials. Defaults to None.
+                plot : bool, optional
+                    If True, plots the zero crossing time delay for each joint. Defaults to False.
+            
+            Returns:
+                pd.DataFrame: A DataFrame containing the zero crossing time delay for each joint 
+                          in each trial. The DataFrame has columns 'trial', 'joints', and 
+                          'zero_crossing'.
+
+            Raises:
+                ValueError: If end-effector data is not available or if the trial index is out of range.
+            """
+            
             if not self.end_effector:
                 raise ValueError("This metric can only be computed if end-effector data is available.")
             if trial == None:
@@ -953,17 +1003,25 @@ class CoordinationMetrics():
     
     def compute_dynamic_time_warping(self, trial=None, plot=False):
         """
-        Computes the Dynamic Time Warping (DTW) between pairs of joints.
+        Compute the Dynamic Time Warping (DTW) distance between joint angles for a given trial or all trials.
+
         Parameters:
-        trial (int): The index of the trial to compute the DTW for. Default is None and uses all the data. If -1, uses the mean joints data
-        plot (bool): Flag to indicate whether to plot the DTW. Default is False.
-        Raises:
-        ValueError: If the trial index is out of range.
+            trial : int, optional
+                The index of the trial to compute DTW for. If None, computes DTW for all trials. If -1, computes DTW for the mean of all trials. Defaults to None.
+            plot : bool, optional
+                If True, plots the DTW results. Defaults to False.
+
         Returns:
-        dict: A dataframe containing the DTW values for each pair of joints, one row per trial.
-        Analysis :
-        The lower the value is the more coordinated are the joints
+            pd.DataFrame: A DataFrame containing the DTW results with columns 'trial', 'joints', and 'dtw'.
+        
+        Raises:
+            ValueError: If the trial index is out of range.
+        
+        Notes:
+            - The DTW distance is computed for each combination of joint angles.
+            - If plot is True, a bar plot of the DTW results is displayed.
         """
+        
         if trial == None:
             data = self.get_data_joints_angles()
             title = "All trials"
@@ -996,13 +1054,25 @@ class CoordinationMetrics():
     
     def compute_jcvpca(self, coord_metric, plot=True, n_pca=None):
         """
-        Compute Joint Contribution variation based on Principal Component Analysis (JCvPCA).
+        Compute Joint Contribution Variation using PCA (JCVPCA).
+
         Parameters:
-        coord_metric (CoordinationMetrics): The CoordinationMetrics object for the second dataset.
-        plot (bool): Flag to indicate whether to plot the JCvPCA results. Default is True.
+            coord_metric : object
+                An object that provides the method `get_concatenate_data()` to retrieve the data for PCA.
+            plot : bool, optional
+                If True, the function will generate and display plots of the PCA results. Default is True.
+            n_pca : int, optional
+                Number of principal components to compute. If None, it defaults to the number of degrees of freedom (self.n_dof).
+        
         Returns:
-        res_jcvpca: A DataFrame containing the JCvPCA values for each pair of joints.
+            subspaceA : numpy.ndarray
+                The PCA subspace of the reference dataset.
+            res : numpy.ndarray
+                The absolute values of the projection of the second dataset in the PCA subspace.
+            sub : numpy.ndarray
+                The difference between the absolute values of the PCA subspaces of the two datasets.
         """
+        
 
         if n_pca is None:
             n_pca = self.n_dof
@@ -1099,14 +1169,24 @@ class CoordinationMetrics():
     
     def compute_jsvcrp(self, coord_metric, plot=False):
         """
-        Compute Joint Synchronization variation based on Continuous Relative Phase (JSvCRP).
-        This function computes the area between the CRP curves of two datasets.
+        Compute the Joint Synchronization Variation based on Continuous Relative Phase (JSvCRP) between two datasets.
+        
         Parameters:
-        coord_metric (CoordinationMetrics): The CoordinationMetrics object for the second dataset.
-        plot (bool): Flag to indicate whether to plot the JSvCRP results. Default is False.
+            coord_metric : object 
+                An object containing the second dataset with a method to compute continuous relative phase.
+            plot :bool
+                If True, a heatmap of the JSvCRP will be plotted. Default is False.
+        
         Returns:
-        res_jsvcrp: A DataFrame containing the JSvCRP values for each pair of joints.
+            pd.DataFrame: A DataFrame containing the JSvCRP values for each pair of angles.
+        
+        Notes:
+            - The method computes the Continuous Relative Phase (CRP) for both datasets.
+            - The JSvCRP is calculated as the integral of the absolute difference between the CRP values of the two datasets.
+            - The resulting JSvCRP values are stored in a DataFrame with angles as both rows and columns.
+            - If `plot` is True, a heatmap of the JSvCRP values is displayed.
         """
+        
 
         # Compute the CRP for both datasets
         crp1 = self.compute_continuous_relative_phase()
@@ -1144,7 +1224,9 @@ class CoordinationMetrics():
     def get_data_joints_angles(self):
         """
         Getter function for the data_joints_angles attribute.
+
         This function returns the data_joints_angles attribute.
+
         Returns:
             list: A list of DataFrames containing joint angle data.
         """
@@ -1153,7 +1235,9 @@ class CoordinationMetrics():
     def get_n_dof(self):
         """
         Getter function for the n_dof attribute.
+
         This function returns the n_dof attribute.
+       
         Returns:
             int: The number of degrees of freedom.
         """
@@ -1162,7 +1246,9 @@ class CoordinationMetrics():
     def get_name(self):
         """
         Getter function for the name attribute.
+
         This function returns the name attribute.
+
         Returns:
             str: The name of the dataset instance.
         """
@@ -1171,7 +1257,9 @@ class CoordinationMetrics():
     def get_list_name_angles(self):
         """
         Getter function for the list_name_angles attribute.
+
         This function returns the list_name_angles attribute.
+
         Returns:
             list: A list containing the names of the angles.
         """
@@ -1180,7 +1268,9 @@ class CoordinationMetrics():
     def get_list_name_velocities(self):
         """
         Getter function for the list_name_velocities attribute.
+
         This function returns the list_name_velocities attribute.
+
         Returns:
             list: A list containing the names of the velocities of the angles.
         """
@@ -1189,7 +1279,9 @@ class CoordinationMetrics():
     def get_angles_combinations(self):
         """
         Getter function for the angles_combinations attribute.
+
         This function returns the angles_combinations attribute.
+
         Returns:
             list: A list containing all possible combinations of angles.
         """
@@ -1198,6 +1290,7 @@ class CoordinationMetrics():
     def get_mean_data(self):
         """
         Returns the mean of the data for all trials.
+
         Returns:
             DataFrame: A DataFrame containing the mean of the data for all trials.
         """
@@ -1206,6 +1299,7 @@ class CoordinationMetrics():
     def get_concatenate_data(self):
         """
         Concatenate all joints data in a single DataFrame.
+
         Returns:
             DataFrame: A DataFrame containing all joints data.
         """

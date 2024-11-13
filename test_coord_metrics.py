@@ -33,9 +33,9 @@ if __name__ == "__main__":
 
 
     # Compute inter-joint coordination metrics
-    res_crp = m.compute_continuous_relative_phase(trial=4, plot=True)
+    res_crp = m1.compute_continuous_relative_phase(trial=4, plot=True)
     res_angle_angle = m1.compute_angle_angle_plot(trial=None)
-    res_pca = m.compute_principal_component_analysis(trial=-1, plot=True, n_components=1)
+    res_pca = m1.compute_principal_component_analysis(trial=-1, plot=True, n_components=1)
     res_crosscorr = m1.compute_cross_correlation(trial=-1, plot=True, normalize=True)
     res_ici = m1.compute_interjoint_coupling_interval(trial=-1, plot=True)
     dist_pca = m1.compute_distance_between_PCs(m2)

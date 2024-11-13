@@ -754,27 +754,32 @@ class CoordinationMetrics():
         subspaceA, _ = self.get_pca_subspace() # U
         subspaceB, _ = cm2.get_pca_subspace() # V
 
+        U = subspaceA
+        V = subspaceB
+
         print(subspaceA)
         print(subspaceB)
 
-        # Compute U^T V
-        W = np.dot(subspaceA.T, subspaceB)
+        # Verify dimension subspaces
+        if U.shape[1] > U.shape[0]:
+            U = U.T
+        if V.shape[1] > V.shape[0]:
+            V = V.T
 
-        print(W)
-        # Compute the singular values of W
-        u, s, v = np.linalg.svd(np.dot(subspaceA, np.transpose(subspaceB)))
-        print(s)
-        #find the minimum singular value
-        min_singular_value = np.min(s)
-        # print(s_min)
-        if min_singular_value > 1:
-            min_singular_value = 1
+        # Singular value decomposition of the matrix U^T V
+        S = np.linalg.svd(np.dot(U.T, V), compute_uv=False)
 
-        #comute the distance
-        distance = np.real(np.sqrt(1 - min_singular_value**2))
-        angle = math.asin(distance)*180/math.pi
+        # Compute the minimum of SVD
+        Smin = np.min(S)
 
-        res_dist_pca.loc[len(res_dist_pca)] = {'datasetA': self.get_name(), 'datasetB': cm2.get_name(), 'distance': distance, 'angle': angle}
+        # Compute the distance
+        d = np.real(np.sqrt(1 - Smin * Smin))
+        angle = np.arcsin(d) * 180 / np.pi       
+        
+        res_dist_pca.loc[len(res_dist_pca)] = {'datasetA': self.get_name(), 'datasetB': cm2.get_name(), 'distance': d, 'angle': angle}
+
+        return d, angle
+
         
     def compute_correlation(self, trial=None, plot=False, type='pearson'):
         """

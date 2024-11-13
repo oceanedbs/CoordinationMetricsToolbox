@@ -141,8 +141,7 @@ class CoordinationMetrics():
     
 
     def __init__(self, list_files_angles, list_name_angles=None, name=None, end_effector=False,  deg=True, freq=None):
-        """
-        Initialize the CoordinationMetrics object.
+        """Initialize the CoordinationMetrics object.
 
         Parameters
         list_files_angles : list
@@ -198,8 +197,7 @@ class CoordinationMetrics():
 
 
     def load_csv_files(self):
-        """
-        Loads joint angle data from a list of CSV files.
+        """Loads joint angle data from a list of CSV files.
 
         This method reads CSV files specified in `self.list_files_angles` and 
         stores the data in `self.data_joints_angles`. Each file is expected to 
@@ -223,8 +221,7 @@ class CoordinationMetrics():
 
 
     def set_angle_names(self):
-        """
-        Sets the names of the angles based on the data provided.
+        """Sets the names of the angles based on the data provided.
 
         This method assigns the list of angle names to the `list_name_angles` attribute.
         If `list_name_angles` is None and `end_effector` is False, it sets `list_name_angles`

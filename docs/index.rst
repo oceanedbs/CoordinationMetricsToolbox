@@ -6,7 +6,7 @@
 CoordinationMetricsToolbox documentation
 ========================================
 
-This coordination metrics toolbox is from the work of __Dubois, O., Roby-Brami, A., Parry, R. et al. A guide to inter-joint coordination characterization for discrete movements: a comparative study. J NeuroEngineering Rehabil 20, 132 (2023). https://doi.org/10.1186/s12984-023-01252-2__
+This coordination metrics toolbox is from the work of *Dubois, O., Roby-Brami, A., Parry, R. et al. A guide to inter-joint coordination characterization for discrete movements: a comparative study. J NeuroEngineering Rehabil 20, 132 (2023). https://doi.org/10.1186/s12984-023-01252-2*
 Not all metrics are implemented since some of them requires joints position trajectories. 
 In addition, the metrics developped in the paper [add PLOS paper once published], have been added to quantify differences in inter-joint coordination.
 

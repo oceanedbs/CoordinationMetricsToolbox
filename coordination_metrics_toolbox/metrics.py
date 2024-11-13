@@ -230,6 +230,7 @@ class CoordinationMetrics():
         to all columns of `data_joints_angles[0]` except the first one and the last three.
 
         Parameters
+        ----------
             list_name_angles : list 
                 The list of angle names.
             data_joints_angles : list

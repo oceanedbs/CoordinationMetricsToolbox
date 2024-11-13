@@ -39,7 +39,7 @@ def get_pca_frame(data, n_components=2):
     Returns
         components : array, shape (n_components, n_features)
             The principal components of the data.
-        explained_variance_ratio_ : array, shape (n_components,)
+        explained_variance_ratio : array, shape (n_components,)
             The amount of variance explained by each of the selected components.
 
     Notes
@@ -53,7 +53,9 @@ def get_pca_frame(data, n_components=2):
     # pca.components_[0,:] contains the first vector of the PCA frame
     # pca.components_[1,:] contains the second vector of the PCA frame
 
-    return pca.components_, pca.explained_variance_ratio_
+    components = pca.components_
+    explained_variance_ratio = pca.explained_variance_ratio_
+    return components, explained_variance_ratio
 
 
 

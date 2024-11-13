@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
 
     # Plot the data
-    # m1.plot_joints_angles(-1)
-    # m1.plot_joints_angular_velocity(4)
+    m1.plot_joints_angles(-1)
+    m1.plot_joints_angular_velocity(4)
 
 
     # Compute inter-joint coordination metrics

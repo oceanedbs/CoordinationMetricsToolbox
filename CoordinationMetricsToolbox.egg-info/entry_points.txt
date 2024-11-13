@@ -1,3 +1,0 @@
-[console_scripts]
-generate_dataset = generate_testing_dataset:main
-run_tests = test:main

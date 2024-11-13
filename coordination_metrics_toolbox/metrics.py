@@ -90,7 +90,46 @@ class CoordinationMetrics():
         List of all possible combinations of angles.
     n_dof : int
         Number of degrees of freedom.
-
+        
+    Methods
+    -------
+    load_csv_files()
+        Loads joint angle data from a list of CSV files.
+    set_angle_names()
+        Sets the names of the angles based on the data provided.
+    set_velocities_names()
+        Sets the names of the velocities of the angles.
+    set_angles_combinations()
+        Sets the combinations of angles for computing inter-joint coordination metrics.
+    rename_time_column()
+        Renames the first column of each DataFrame in the `data_joints_angles` attribute to "time".
+    rename_end_effector_columns()
+        Renames the columns of the end-effector data.
+    compute_end_effector_velocity()
+        Computes the velocity of the end-effector data.
+    set_n_dof()
+        Sets the number of degrees of freedom (n_dof) for the object.
+    convert_angles_to_radians()
+        Converts the joint angles from degrees to radians.
+    compute_joints_angular_velocity()
+        Computes the angular velocity for each joint angle in the dataset.
+    plot_joints_angles(trial=None)
+        Plots the joint angles for the specified trial, all trials, or mean trial.
+    plot_joints_angular_velocity(trial=None)
+        Plots the joint angular velocities for the specified trial.
+    compute_continuous_relative_phase(trial=None, plot=False)   
+        Compute the Continuous Relative Phase (CRP) for joint angles.
+    compute_angle_angle_plot(trial=None)
+        Generates an angle-angle plot for joint angles data.
+    compute_principal_component_analysis(trial=None, plot=False, n_components=2)
+        Compute Principal Component Analysis (PCA) on joint angle data.
+    compute_cross_correlation(trial=None, plot=False, normalize=False)
+        Compute the cross-correlation between joint angles for a given trial or all trials.
+    compute_interjoint_coupling_interval(trial=None, plot=False)
+        Computes the Interjoint Coupling Interval (ICI) for the given trial or all trials.
+    get_pca_subspace(n_components=None)
+        Computes the PCA (Principal Component Analysis) subspace for the given data.
+    
 
     Examples
     --------
@@ -423,11 +462,11 @@ class CoordinationMetrics():
             ax.set_ylabel("Angular Velocity (degrees/s)")
         else:
             ax.set_ylabel("Angular Velocity (radians/s)")
-      
+
         fig.suptitle("Joint angular velocities \n"+title + '\n' + self.name)
         plt.show()
 
-   #%% Inter-joint coordination metrics
+#%% Inter-joint coordination metrics
 
     def compute_continuous_relative_phase(self, trial=None, plot=False):
         """
@@ -599,7 +638,7 @@ class CoordinationMetrics():
         Raises:
             ValueError: If the trial index is out of range.
         """
-       
+
         if trial == None: 
             data = self.get_data_joints_angles()
             title = "All trials"
@@ -662,7 +701,7 @@ class CoordinationMetrics():
             The deactivation time is defined as the first element of the last block of consecutive indices
             where the joint's velocity is less than 5% of its maximum velocity.
         """
-         
+    
         if trial == None: 
             data = self.get_data_joints_angles()
             title = "All trials"
@@ -677,7 +716,7 @@ class CoordinationMetrics():
         
         # Create an empty confusion matrix with the joint angles as columns and rows
         ici_results = pd.DataFrame(columns=['trial', 'joints', 'ICI'])
-       
+
         print(ici_results.columns)
         for i,d in enumerate(data) :
             for a1, a2 in self.angles_combinations:
@@ -712,7 +751,7 @@ class CoordinationMetrics():
         
         Parameters:
             n_components (int, optional): Number of principal components to keep. 
-                          If None, the number of components will be set to the number of degrees of freedom (self.n_dof).
+                If None, the number of components will be set to the number of degrees of freedom (self.n_dof).
         
         Returns:
             DataFrame: A DataFrame containing the PCA-transformed data with the specified number of components.
@@ -724,7 +763,7 @@ class CoordinationMetrics():
         data = self.get_concatenate_data()
         scaler = StandardScaler()
         data_scaled = scaler.fit_transform(data[self.list_name_angles])
-       
+
         return get_pca_frame(data_scaled, n_components)
     
     def compute_distance_between_PCs(self, cm2, n_components = None, plot=False):

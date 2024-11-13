@@ -1,4 +1,4 @@
-coordination\_metrics\_toolbox package
+coordination\_metrics\_toolbox
 ======================================
 
 Submodules

@@ -374,7 +374,7 @@ If True, normalizes the data before computing cross-correlation. Defaults to Fal
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_distance_between_PCs">
-<span class="sig-name descname"><span class="pre">compute_distance_between_PCs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trialA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trialB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_distance_between_PCs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_distance_between_PCs" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">compute_distance_between_PCs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_distance_between_PCs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_distance_between_PCs" title="Link to this definition"></a></dt>
 <dd><p>Computes the distance between the principal components (PCs) of the joint angles.</p>
 <p>From Bockemühl Till, Troje NF, Dürr V. Inter‑joint coupling and joint angle synergies of human catching movements. Hum Mov Sci. 2010;29(1):73–93.
 <a class="reference external" href="https://">https://</a> doi. org/ 10. 1016/j. humov. 2009. 03. 003.
@@ -382,6 +382,8 @@ Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s bein
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>cm2</strong> – CoordinationMetrics
+The CoordinationMetrics object to compare the distance between PCs with.</p></li>
 <li><p><strong>trial</strong> – int
 The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data</p></li>
 <li><p><strong>plot</strong> – bool
@@ -1286,7 +1288,7 @@ If True, normalizes the data before computing cross-correlation. Defaults to Fal
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_distance_between_PCs">
-<span class="sig-name descname"><span class="pre">compute_distance_between_PCs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trialA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trialB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_distance_between_PCs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_distance_between_PCs" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">compute_distance_between_PCs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_distance_between_PCs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_distance_between_PCs" title="Link to this definition"></a></dt>
 <dd><p>Computes the distance between the principal components (PCs) of the joint angles.</p>
 <p>From Bockemühl Till, Troje NF, Dürr V. Inter‑joint coupling and joint angle synergies of human catching movements. Hum Mov Sci. 2010;29(1):73–93.
 <a class="reference external" href="https://">https://</a> doi. org/ 10. 1016/j. humov. 2009. 03. 003.
@@ -1294,6 +1296,8 @@ Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s bein
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>cm2</strong> – CoordinationMetrics
+The CoordinationMetrics object to compare the distance between PCs with.</p></li>
 <li><p><strong>trial</strong> – int
 The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data</p></li>
 <li><p><strong>plot</strong> – bool

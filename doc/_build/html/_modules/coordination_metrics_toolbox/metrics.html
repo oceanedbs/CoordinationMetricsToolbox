@@ -862,7 +862,7 @@
     
 <div class="viewcode-block" id="CoordinationMetrics.compute_distance_between_PCs">
 <a class="viewcode-back" href="../../coordination_metrics_toolbox.html#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_distance_between_PCs">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute_distance_between_PCs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cm2</span><span class="p">,</span><span class="n">trialA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trialB</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compute_distance_between_PCs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cm2</span><span class="p">,</span> <span class="n">n_components</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the distance between the principal components (PCs) of the joint angles.</span>
@@ -872,6 +872,8 @@
 <span class="sd">        Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s being the minimum singular value of the matrix W = min(U^T V ).</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters:</span>
+<span class="sd">            cm2 : CoordinationMetrics</span>
+<span class="sd">                The CoordinationMetrics object to compare the distance between PCs with.</span>
 <span class="sd">            trial : int</span>
 <span class="sd">                The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data</span>
 <span class="sd">            plot : bool</span>
@@ -886,30 +888,45 @@
 
         <span class="c1">#Compute PCA on both datasets that will define U and V</span>
         <span class="n">res_dist_pca</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datasetA&#39;</span><span class="p">,</span> <span class="s1">&#39;datasetB&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">])</span>
-        <span class="n">subspaceA</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pca_subspace</span><span class="p">()</span> <span class="c1"># U</span>
-        <span class="n">subspaceB</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cm2</span><span class="o">.</span><span class="n">get_pca_subspace</span><span class="p">()</span> <span class="c1"># V</span>
+        <span class="n">subspaceA</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pca_subspace</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components</span><span class="p">)</span> <span class="c1"># U</span>
+        <span class="n">subspaceB</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cm2</span><span class="o">.</span><span class="n">get_pca_subspace</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components</span><span class="p">)</span> <span class="c1"># V</span>
+
+        <span class="n">U</span> <span class="o">=</span> <span class="n">subspaceA</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">subspaceB</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="n">subspaceA</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">subspaceB</span><span class="p">)</span>
 
-        <span class="c1"># Compute U^T V</span>
-        <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">subspaceA</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">subspaceB</span><span class="p">)</span>
+        <span class="c1"># Verify dimension subspaces</span>
+        <span class="k">if</span> <span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">T</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
-        <span class="c1"># Compute the singular values of W</span>
-        <span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">subspaceA</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">subspaceB</span><span class="p">)))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="c1">#find the minimum singular value</span>
-        <span class="n">min_singular_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="c1"># print(s_min)</span>
-        <span class="k">if</span> <span class="n">min_singular_value</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">min_singular_value</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># Singular value decomposition of the matrix U^T V</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">V</span><span class="p">),</span> <span class="n">compute_uv</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="c1">#comute the distance</span>
-        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">min_singular_value</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-        <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">asin</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+        <span class="c1"># Compute the minimum of SVD</span>
+        <span class="n">Smin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
 
-        <span class="n">res_dist_pca</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">res_dist_pca</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;datasetA&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="s1">&#39;datasetB&#39;</span><span class="p">:</span> <span class="n">cm2</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="n">distance</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="n">angle</span><span class="p">}</span></div>
+        <span class="c1"># Compute the distance</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Smin</span> <span class="o">*</span> <span class="n">Smin</span><span class="p">))</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>       
+        
+        <span class="n">res_dist_pca</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">res_dist_pca</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;datasetA&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="s1">&#39;datasetB&#39;</span><span class="p">:</span> <span class="n">cm2</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="n">angle</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+            <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">res_dist_pca</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;datasetA&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Distance between PCs&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>   
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Datasets&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Distance&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+        <span class="k">return</span> <span class="n">res_dist_pca</span></div>
+
 
         
 <div class="viewcode-block" id="CoordinationMetrics.compute_correlation">

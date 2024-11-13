@@ -4,14 +4,7 @@
 The Coordination Metrics Toolbox is a comprehensive suite of tools designed to measure and analyze coordination metrics in various projects.
 
 ## Installation
-
-To install the toolbox, clone the repository and install the dependencies:
-
-```bash
-git clone https://github.com/yourusername/CoordinationMetricsToolbox.git
-cd CoordinationMetricsToolbox
-pip install -r requirements.txt
-```
+// TO DO
 
 # Informations
 

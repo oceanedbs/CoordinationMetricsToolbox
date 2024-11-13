@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
 
     # Plot the data
-    m1.plot_joints_angles(-1)
-    m1.plot_joints_angular_velocity(4)
+    # m1.plot_joints_angles(-1)
+    # m1.plot_joints_angular_velocity(4)
 
 
     # Compute inter-joint coordination metrics
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     res_pca = m1.compute_principal_component_analysis(trial=-1, plot=True, n_components=1)
     res_crosscorr = m1.compute_cross_correlation(trial=-1, plot=True, normalize=True)
     res_ici = m1.compute_interjoint_coupling_interval(trial=-1, plot=True)
-    dist_pca = m1.compute_distance_between_PCs(m2)
+    dist_pca = m1.compute_distance_between_PCs(m2, plot=True)
     res_correlation = m1.compute_correlation(trial=2, plot=True, type='pearson')
     res_angles_ratio = m1.compute_angle_ratio(trial=None, plot=True)
     res_temporal_coord = m1.compute_temporal_coordination_index(trial=None, plot=True)

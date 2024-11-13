@@ -727,7 +727,7 @@ class CoordinationMetrics():
        
         return get_pca_frame(data_scaled, n_components)
     
-    def compute_distance_between_PCs(self, cm2,trialA=None, trialB=None, plot=False):
+    def compute_distance_between_PCs(self, cm2, n_components = None, plot=False):
         
         """
         Computes the distance between the principal components (PCs) of the joint angles.
@@ -737,6 +737,8 @@ class CoordinationMetrics():
         Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s being the minimum singular value of the matrix W = min(U^T V ).
         
         Parameters:
+            cm2 : CoordinationMetrics
+                The CoordinationMetrics object to compare the distance between PCs with.
             trial : int
                 The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data
             plot : bool
@@ -751,8 +753,8 @@ class CoordinationMetrics():
 
         #Compute PCA on both datasets that will define U and V
         res_dist_pca = pd.DataFrame(columns=['datasetA', 'datasetB', 'distance', 'angle'])
-        subspaceA, _ = self.get_pca_subspace() # U
-        subspaceB, _ = cm2.get_pca_subspace() # V
+        subspaceA, _ = self.get_pca_subspace(n_components=n_components) # U
+        subspaceB, _ = cm2.get_pca_subspace(n_components=n_components) # V
 
         U = subspaceA
         V = subspaceB
@@ -778,7 +780,17 @@ class CoordinationMetrics():
         
         res_dist_pca.loc[len(res_dist_pca)] = {'datasetA': self.get_name(), 'datasetB': cm2.get_name(), 'distance': d, 'angle': angle}
 
-        return d, angle
+        if plot:
+            fig, ax = plt.subplots()
+            sns.barplot(res_dist_pca, x='datasetA', y='distance', ax=ax)
+            ax.set_title('Distance between PCs')
+            ax.set_ylim(0, 1)   
+            ax.set_xlabel('Datasets')
+            ax.set_ylabel('Distance')
+            plt.show()
+
+
+        return res_dist_pca
 
         
     def compute_correlation(self, trial=None, plot=False, type='pearson'):

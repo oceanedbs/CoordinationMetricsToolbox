@@ -30,7 +30,8 @@ jobs:
           pip install scipy
           pip install scikit-learn
           pip install seaborn
-          
+          pip install fastdtw
+
 
       - name: Build Sphinx documentation
         run: |

@@ -13,13 +13,35 @@ In addition, the metrics developped in the paper [add PLOS paper once published]
 To use this toolbox, joints angle trajectories are required in the following format :
 
 The format expected for the data is the following one : 
-| time | joint_i | joint_j | joint_k | _ee_x_ | _ee_y_ | _ee_z_ |
-|------|---------|---------|---------|--------|--------|--------|
-|      |         |         |         |        |        |        |
-|      |         |         |         |        |        |        |
-|      |         |         |         |        |        |        |
 
-Columns in italic (ee_x, ee_y, ee_z) which are the position of the end-effector are optional. However, without thoses columns, the number of metrics that can be computed is limited.
+.. list-table:: CSV data format
+   :widths: 25 25 25 25 25 25 25
+   :header-rows: 1
+
+   * - time
+     - joint_i
+     - joint_j
+     - joint_k
+     - _ee_x_
+     - _ee_y_
+     - _ee_z_
+   * - 
+     -
+     - 
+     -
+     -
+     -
+     -
+   * -
+     - 
+     -
+     -
+     -
+     -
+     -
+
+
+Columns containing end-effector data (ee_x, ee_y, ee_z), the position of the end-effector, are optional. However, without thoses columns, the number of metrics that can be computed is limited.
 
 
 .. toctree::

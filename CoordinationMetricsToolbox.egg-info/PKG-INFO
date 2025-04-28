@@ -1,3 +1,15 @@
+Metadata-Version: 2.1
+Name: CoordinationMetricsToolbox
+Version: 0.1
+Summary: A toolbox for measuring and analyzing coordination metrics.
+Home-page: https://github.com/oceanedbs/CoordinationMetricsToolbox
+Author: Océane Dubois
+Author-email: 
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
 # CoordinationMetricsToolbox
 # Coordination Metrics Toolbox
 
@@ -11,8 +23,6 @@ At the root of this repository, run
 
 Or 
     pip install CoordinationMetricsToolbox
-
-    
 # Informations
 
 This work comes from the article : Dubois, O., Roby-Brami, A., Parry, R. et al. A guide to inter-joint coordination characterization for discrete movements: a comparative study. J NeuroEngineering Rehabil 20, 132 (2023). https://doi.org/10.1186/s12984-023-01252-2
@@ -44,3 +54,8 @@ The full documentation of the toolbox can be found [here](https://oceanedbs.gith
 Go to the doc file and execute __make html__
 
 
+# To Install the package
+
+Download this repository
+At the root of this repository, run 
+    pip install .

@@ -1,0 +1,2 @@
+[console_scripts]
+run_metrics = coordination_metrics_toolbox.metrics:main

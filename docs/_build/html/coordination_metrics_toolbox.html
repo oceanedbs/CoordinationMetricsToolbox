@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>coordination_metrics_toolbox package &mdash; CoordinationMetricsToolbox 00.01 documentation</title>
+  <title>coordination_metrics_toolbox &mdash; CoordinationMetricsToolbox 00.01 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -44,18 +44,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">coordination_metrics_toolbox</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">coordination_metrics_toolbox package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-coordination_metrics_toolbox.metrics">coordination_metrics_toolbox.metrics module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics"><code class="docutils literal notranslate"><span class="pre">CoordinationMetrics</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#coordination_metrics_toolbox.metrics.generate_palette"><code class="docutils literal notranslate"><span class="pre">generate_palette()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#coordination_metrics_toolbox.metrics.get_pca_frame"><code class="docutils literal notranslate"><span class="pre">get_pca_frame()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-coordination_metrics_toolbox.utils">coordination_metrics_toolbox.utils module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">coordination_metrics_toolbox</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-coordination_metrics_toolbox">Module contents</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#coordination_metrics_toolbox.CoordinationMetrics"><code class="docutils literal notranslate"><span class="pre">CoordinationMetrics</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#coordination_metrics_toolbox.generate_palette"><code class="docutils literal notranslate"><span class="pre">generate_palette()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coordination_metrics_toolbox.get_pca_frame"><code class="docutils literal notranslate"><span class="pre">get_pca_frame()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -79,7 +72,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="modules.html">coordination_metrics_toolbox</a></li>
-      <li class="breadcrumb-item active">coordination_metrics_toolbox package</li>
+      <li class="breadcrumb-item active">coordination_metrics_toolbox</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/coordination_metrics_toolbox.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -89,1033 +82,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="coordination-metrics-toolbox-package">
-<h1>coordination_metrics_toolbox package<a class="headerlink" href="#coordination-metrics-toolbox-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
-<section id="module-coordination_metrics_toolbox.metrics">
-<span id="coordination-metrics-toolbox-metrics-module"></span><h2>coordination_metrics_toolbox.metrics module<a class="headerlink" href="#module-coordination_metrics_toolbox.metrics" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coordination_metrics_toolbox.metrics.</span></span><span class="sig-name descname"><span class="pre">CoordinationMetrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_files_angles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_name_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_effector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class provides a toolbox for computing various coordination metrics from joint angle data.</p>
-<p>It includes methods for loading data, setting angle names, computing velocities, and various
-coordination metrics such as continuous relative phase, principal component analysis,
-cross-correlation, and more.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.list_files_angles">
-<span class="sig-name descname"><span class="pre">list_files_angles</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.list_files_angles" title="Link to this definition"></a></dt>
-<dd><p>List of file paths to the CSV files containing joint angle data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_angles">
-<span class="sig-name descname"><span class="pre">list_name_angles</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_angles" title="Link to this definition"></a></dt>
-<dd><p>List of names corresponding to the angles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.name" title="Link to this definition"></a></dt>
-<dd><p>Name of the dataset instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.end_effector">
-<span class="sig-name descname"><span class="pre">end_effector</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.end_effector" title="Link to this definition"></a></dt>
-<dd><p>Flag indicating if the data contains end-effector data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.deg">
-<span class="sig-name descname"><span class="pre">deg</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.deg" title="Link to this definition"></a></dt>
-<dd><p>Flag indicating if the angles are in degrees.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.freq">
-<span class="sig-name descname"><span class="pre">freq</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.freq" title="Link to this definition"></a></dt>
-<dd><p>Frequency of the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.data_joints_angles">
-<span class="sig-name descname"><span class="pre">data_joints_angles</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.data_joints_angles" title="Link to this definition"></a></dt>
-<dd><p>List of pandas DataFrames containing joint angle data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_velocities">
-<span class="sig-name descname"><span class="pre">list_name_velocities</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.list_name_velocities" title="Link to this definition"></a></dt>
-<dd><p>List of names of the velocities of the angles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.angles_combinations">
-<span class="sig-name descname"><span class="pre">angles_combinations</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.angles_combinations" title="Link to this definition"></a></dt>
-<dd><p>List of all possible combinations of angles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.n_dof">
-<span class="sig-name descname"><span class="pre">n_dof</span></span><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.n_dof" title="Link to this definition"></a></dt>
-<dd><p>Number of degrees of freedom.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.load_csv_files">
-<span class="sig-name descname"><span class="pre">load_csv_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.load_csv_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.load_csv_files" title="Link to this definition"></a></dt>
-<dd><p>Loads joint angle data from a list of CSV files.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.set_angle_names">
-<span class="sig-name descname"><span class="pre">set_angle_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angle_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.set_angle_names" title="Link to this definition"></a></dt>
-<dd><p>Sets the names of the angles based on the data provided.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.set_velocities_names">
-<span class="sig-name descname"><span class="pre">set_velocities_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_velocities_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.set_velocities_names" title="Link to this definition"></a></dt>
-<dd><p>Sets the names of the velocities of the angles.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.set_angles_combinations">
-<span class="sig-name descname"><span class="pre">set_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.set_angles_combinations" title="Link to this definition"></a></dt>
-<dd><p>Sets the combinations of angles for computing inter-joint coordination metrics.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.rename_time_column">
-<span class="sig-name descname"><span class="pre">rename_time_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_time_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.rename_time_column" title="Link to this definition"></a></dt>
-<dd><p>Renames the first column of each DataFrame in the <cite>data_joints_angles</cite> attribute to “time”.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.rename_end_effector_columns">
-<span class="sig-name descname"><span class="pre">rename_end_effector_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_end_effector_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.rename_end_effector_columns" title="Link to this definition"></a></dt>
-<dd><p>Renames the columns of the end-effector data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_end_effector_velocity">
-<span class="sig-name descname"><span class="pre">compute_end_effector_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_end_effector_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_end_effector_velocity" title="Link to this definition"></a></dt>
-<dd><p>Computes the velocity of the end-effector data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.set_n_dof">
-<span class="sig-name descname"><span class="pre">set_n_dof</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_n_dof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.set_n_dof" title="Link to this definition"></a></dt>
-<dd><p>Sets the number of degrees of freedom (n_dof) for the object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.convert_angles_to_radians">
-<span class="sig-name descname"><span class="pre">convert_angles_to_radians</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.convert_angles_to_radians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.convert_angles_to_radians" title="Link to this definition"></a></dt>
-<dd><p>Converts the joint angles from degrees to radians.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_joints_angular_velocity">
-<span class="sig-name descname"><span class="pre">compute_joints_angular_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_joints_angular_velocity" title="Link to this definition"></a></dt>
-<dd><p>Computes the angular velocity for each joint angle in the dataset.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.plot_joints_angles">
-<span class="sig-name descname"><span class="pre">plot_joints_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.plot_joints_angles" title="Link to this definition"></a></dt>
-<dd><p>Plots the joint angles for the specified trial, all trials, or mean trial.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.plot_joints_angular_velocity">
-<span class="sig-name descname"><span class="pre">plot_joints_angular_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.plot_joints_angular_velocity" title="Link to this definition"></a></dt>
-<dd><p>Plots the joint angular velocities for the specified trial.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_continuous_relative_phase">
-<span class="sig-name descname"><span class="pre">compute_continuous_relative_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_continuous_relative_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_continuous_relative_phase" title="Link to this definition"></a></dt>
-<dd><p>Compute the Continuous Relative Phase (CRP) for joint angles.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_angle_angle_plot">
-<span class="sig-name descname"><span class="pre">compute_angle_angle_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_angle_angle_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_angle_angle_plot" title="Link to this definition"></a></dt>
-<dd><p>Generates an angle-angle plot for joint angles data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_principal_component_analysis">
-<span class="sig-name descname"><span class="pre">compute_principal_component_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_principal_component_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_principal_component_analysis" title="Link to this definition"></a></dt>
-<dd><p>Compute Principal Component Analysis (PCA) on joint angle data.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_cross_correlation">
-<span class="sig-name descname"><span class="pre">compute_cross_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_cross_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_cross_correlation" title="Link to this definition"></a></dt>
-<dd><p>Compute the cross-correlation between joint angles for a given trial or all trials.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_interjoint_coupling_interval">
-<span class="sig-name descname"><span class="pre">compute_interjoint_coupling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_interjoint_coupling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_interjoint_coupling_interval" title="Link to this definition"></a></dt>
-<dd><p>Computes the Interjoint Coupling Interval (ICI) for the given trial or all trials.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_pca_subspace">
-<span class="sig-name descname"><span class="pre">get_pca_subspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_pca_subspace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_pca_subspace" title="Link to this definition"></a></dt>
-<dd><p>Computes the PCA (Principal Component Analysis) subspace for the given data.</p>
-</dd></dl>
-
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">list_files_angles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data/angles1.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;data/angles2.csv&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">list_name_angles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;angle1&quot;</span><span class="p">,</span> <span class="s2">&quot;angle2&quot;</span><span class="p">,</span> <span class="s2">&quot;angle3&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">CoordinationMetrics</span><span class="p">(</span><span class="n">list_files_angles</span><span class="p">,</span> <span class="n">list_name_angles</span><span class="p">,</span> <span class="s2">&quot;Test Data&quot;</span><span class="p">,</span> <span class="n">end_effector</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">compute_continuous_relative_phase</span><span class="p">(</span><span class="n">trial</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">compute_angle_angle_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_angle_angle_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd><p>Generates an angle-angle plot for joint angles data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the trial to plot. If None, all trials are concatenated and plotted.
-If -1, the mean of all trials is plotted. Defaults to None.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The data used for plotting.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_angle_ratio">
-<span class="sig-name descname"><span class="pre">compute_angle_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_angle_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_angle_ratio" title="Link to this definition"></a></dt>
-<dd><p>Compute the ratio of joint angles at the time of maximum end-effector velocity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the angle ratio for. If None, computes for all trials.
-If -1, computes for the mean of all trials. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the angle ratios. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the trial index, joint pairs, and their corresponding angle ratios.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If end-effector data is not available or if the trial index is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The angle ratio is computed as the ratio of the angles of two joints at the time point where the end-effector velocity is maximum.
-If the angle of the second joint is zero, the ratio is set to NaN.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">compute_continuous_relative_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_continuous_relative_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
-<dd><p>Compute the Continuous Relative Phase (CRP) for joint angles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> (<em>plots the CRP for the specified</em>) – int, optional
-Index of the trial to compute the CRP for. If None, computes CRP for all trials.
-If -1, computes CRP for the mean of all trials. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional</p></li>
-<li><p><strong>True</strong> (<em>If</em>)</p></li>
-<li><p><strong>trial</strong></p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>list of pandas.DataFrame</dt><dd><p>List of DataFrames containing the joint angles and their computed phases,
-as well as the CRP for the specified trial(s).</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>data</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the specified trial index is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The function computes the phase for each joint using the arctangent of the
-joint angle velocity and the joint angle. It then computes the CRP between
-specified pairs of joints (angles_combinations) by unwrapping the difference
-between their phases. If plotting is enabled, it generates plots of the CRP
-over time for the specified trial(s).</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_correlation">
-<span class="sig-name descname"><span class="pre">compute_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pearson'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_correlation" title="Link to this definition"></a></dt>
-<dd><p>Compute the correlation between joint angles for a given trial or all trials.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the correlation for. If None, computes the correlation for all trials.
-If -1, computes the correlation for the mean of all trials. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the correlation results. Default is False.</p></li>
-<li><p><strong>type</strong> – str, optional
-The type of correlation to compute. Options are ‘pearson’, ‘kendall’, or ‘spearman’. Default is ‘pearson’.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the correlation results with columns [‘trial’, ‘joints’, ‘correlation’].</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The method computes the correlation between all combinations of joint angles specified in <cite>self.angles_combinations</cite>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">compute_cross_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_cross_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd><p>Compute the cross-correlation between joint angles for a given trial or all trials.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-Index of the trial to compute cross-correlation for. If None, computes for all trials. If -1, computes for the mean of all trials.  Defaults to None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the cross-correlation results. Defaults to False.</p></li>
-<li><p><strong>normalize</strong> – bool, optional
-If True, normalizes the data before computing cross-correlation. Defaults to False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>list</dt><dd><p>A list of DataFrames containing the cross-correlation results for each trial.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>data</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_distance_between_PCs">
-<span class="sig-name descname"><span class="pre">compute_distance_between_PCs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cm2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_distance_between_PCs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_distance_between_PCs" title="Link to this definition"></a></dt>
-<dd><p>Computes the distance between the principal components (PCs) of the joint angles.</p>
-<p>From Bockemühl Till, Troje NF, Dürr V. Inter‑joint coupling and joint angle synergies of human catching movements. Hum Mov Sci. 2010;29(1):73–93.
-<a class="reference external" href="https://">https://</a> doi. org/ 10. 1016/j. humov. 2009. 03. 003.
-Distance between PCs is defined as dist(U, V ) = np.sqrt(1 − s^2), with s being the minimum singular value of the matrix W = min(U^T V ).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cm2</strong> – CoordinationMetrics
-The CoordinationMetrics object to compare the distance between PCs with.</p></li>
-<li><p><strong>trial</strong> – int
-The index of the trial to compute the distance between PCs for. Default is None and uses all the data. If -1, uses the mean joints data</p></li>
-<li><p><strong>plot</strong> – bool
-Flag to indicate whether to plot the distance between PCs. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dataframe containing the distance between PCs for each pair of joints, one row per trial.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>res_dist_pca</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_dynamic_time_warping">
-<span class="sig-name descname"><span class="pre">compute_dynamic_time_warping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_dynamic_time_warping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_dynamic_time_warping" title="Link to this definition"></a></dt>
-<dd><p>Compute the Dynamic Time Warping (DTW) distance between joint angles for a given trial or all trials.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute DTW for. If None, computes DTW for all trials. If -1, computes DTW for the mean of all trials. Defaults to None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the DTW results. Defaults to False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing the DTW results with columns ‘trial’, ‘joints’, and ‘dtw’.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>The DTW distance is computed for each combination of joint angles.</p></li>
-<li><p>If plot is True, a bar plot of the DTW results is displayed.</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">compute_end_effector_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_end_effector_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
-<dd><p>Computes the velocity of the end-effector data.</p>
-<p>This method computes the velocity of the end-effector data by taking the derivative of the
-“ee_x”, “ee_y”, and “ee_z” columns. The velocity is stored in the “ee_x_velocity”,
-“ee_y_velocity”, and “ee_z_velocity” columns. The global end-effector velocity is also computed
-and stored in the “ee_velocity” column.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">compute_interjoint_coupling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_interjoint_coupling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
-<dd><p>Computes the Interjoint Coupling Interval (ICI) for the given trial or all trials.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the ICI for. If None, computes the ICI for all trials.
-If -1, computes the ICI for the mean of all trials. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the ICI results using a bar plot. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the ICI results with columns ‘trial’, ‘joints’, and ‘ICI’.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The ICI is computed as the difference in deactivation times between two joints.
-The deactivation time is defined as the first element of the last block of consecutive indices
-where the joint’s velocity is less than 5% of its maximum velocity.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_jcvpca">
-<span class="sig-name descname"><span class="pre">compute_jcvpca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_jcvpca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_jcvpca" title="Link to this definition"></a></dt>
-<dd><p>Compute Joint Contribution Variation using PCA (JCVPCA).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>coord_metric</strong> – object
-An object that provides the method <cite>get_concatenate_data()</cite> to retrieve the data for PCA.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, the function will generate and display plots of the PCA results. Default is True.</p></li>
-<li><p><strong>n_pca</strong> – int, optional
-Number of principal components to compute. If None, it defaults to the number of degrees of freedom (self.n_dof).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>numpy.ndarray</dt><dd><p>The PCA subspace of the reference dataset.</p>
-</dd>
-<dt>res<span class="classifier">numpy.ndarray</span></dt><dd><p>The absolute values of the projection of the second dataset in the PCA subspace.</p>
-</dd>
-<dt>sub<span class="classifier">numpy.ndarray</span></dt><dd><p>The difference between the absolute values of the PCA subspaces of the two datasets.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>subspaceA</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">compute_joints_angular_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
-<dd><p>Computes the angular velocity for each joint angle in the dataset.</p>
-<p>This method calculates the angular velocity for each joint angle by taking the difference
-between consecutive angle values and dividing by the time difference. The resulting angular
-velocities are stored in new columns with the suffix ‘_velocity’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong></p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_jsvcrp">
-<span class="sig-name descname"><span class="pre">compute_jsvcrp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_jsvcrp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_jsvcrp" title="Link to this definition"></a></dt>
-<dd><p>Compute the Joint Synchronization Variation based on Continuous Relative Phase (JSvCRP) between two datasets.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>coord_metric</strong> – object
-An object containing the second dataset with a method to compute continuous relative phase.</p></li>
-<li><p><strong>plot</strong> – bool
-If True, a heatmap of the JSvCRP will be plotted. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing the JSvCRP values for each pair of angles.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>The method computes the Continuous Relative Phase (CRP) for both datasets.</p></li>
-<li><p>The JSvCRP is calculated as the integral of the absolute difference between the CRP values of the two datasets.</p></li>
-<li><p>The resulting JSvCRP values are stored in a DataFrame with angles as both rows and columns.</p></li>
-<li><p>If <cite>plot</cite> is True, a heatmap of the JSvCRP values is displayed.</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">compute_principal_component_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_principal_component_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
-<dd><p>Compute Principal Component Analysis (PCA) on joint angle data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-Index of the trial to analyze. If None, all trials are concatenated.
-If -1, the mean of all trials is used. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the PCA components. Default is False.</p></li>
-<li><p><strong>n_components</strong> – int, optional
-Number of principal components to compute. Default is 2.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>PCA object</dt><dd><p>Fitted PCA object containing the principal components.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pca</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_temporal_coordination_index">
-<span class="sig-name descname"><span class="pre">compute_temporal_coordination_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_temporal_coordination_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_temporal_coordination_index" title="Link to this definition"></a></dt>
-<dd><p>Compute the Temporal Coordination Index (TCI) for the given trial(s).
-This metric calculates the time difference between the start of the end-effector movement
-and the start of each joint’s movement. The start of the movement is defined as the point
-where the velocity exceeds 5% of its maximum value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the TCI for. If None, computes TCI for all trials. If -1, computes TCI for the mean of all trials. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the TCI results using a bar plot. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>pandas.DataFrame</dt><dd><p>A DataFrame containing the TCI results with columns ‘trial’, ‘joints’, and ‘tci’.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tci_results</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If end-effector data is not available. If the trial index is out of range.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_zero_crossing">
-<span class="sig-name descname"><span class="pre">compute_zero_crossing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_zero_crossing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.compute_zero_crossing" title="Link to this definition"></a></dt>
-<dd><p>Compute the zero crossing time delay for joint angles.</p>
-<p>This method calculates the time delay between the start of movement and the
-deactivation time for each joint angle. The start of movement is defined as
-the time when the end-effector velocity exceeds 5% of its maximum value. The
-deactivation time for each joint is defined as the time when the joint’s
-velocity drops below 5% of its maximum value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the zero crossing for. If None, computes for all trials. If -1, computes for the mean of all trials. Defaults to None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the zero crossing time delay for each joint. Defaults to False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A DataFrame containing the zero crossing time delay for each joint</dt><dd><p>in each trial. The DataFrame has columns ‘trial’, ‘joints’, and
-‘zero_crossing’.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If end-effector data is not available or if the trial index is out of range.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">convert_angles_to_radians</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.convert_angles_to_radians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd><p>Converts the joint angles from degrees to radians.</p>
-<p>This method converts the joint angles from degrees to radians by multiplying the values
-in the <cite>data_joints_angles</cite> attribute by the conversion factor pi/180.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data_joints_angles</strong> (<em>list</em><em> of </em><em>DataFrames</em>) – A list containing DataFrames with joint angle data.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_angles_combinations">
-<span class="sig-name descname"><span class="pre">get_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_angles_combinations" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the angles_combinations attribute.</p>
-<p>This function returns the angles_combinations attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list containing all possible combinations of angles.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_concatenate_data">
-<span class="sig-name descname"><span class="pre">get_concatenate_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_concatenate_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_concatenate_data" title="Link to this definition"></a></dt>
-<dd><p>Concatenate all joints data in a single DataFrame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing all joints data.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_data_joints_angles">
-<span class="sig-name descname"><span class="pre">get_data_joints_angles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_data_joints_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_data_joints_angles" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the data_joints_angles attribute.</p>
-<p>This function returns the data_joints_angles attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of DataFrames containing joint angle data.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_list_name_angles">
-<span class="sig-name descname"><span class="pre">get_list_name_angles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_list_name_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_list_name_angles" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the list_name_angles attribute.</p>
-<p>This function returns the list_name_angles attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list containing the names of the angles.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_list_name_velocities">
-<span class="sig-name descname"><span class="pre">get_list_name_velocities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_list_name_velocities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_list_name_velocities" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the list_name_velocities attribute.</p>
-<p>This function returns the list_name_velocities attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list containing the names of the velocities of the angles.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_mean_data">
-<span class="sig-name descname"><span class="pre">get_mean_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_mean_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_mean_data" title="Link to this definition"></a></dt>
-<dd><p>Returns the mean of the data for all trials.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the mean of the data for all trials.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_n_dof">
-<span class="sig-name descname"><span class="pre">get_n_dof</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_n_dof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_n_dof" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the n_dof attribute.</p>
-<p>This function returns the n_dof attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The number of degrees of freedom.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.CoordinationMetrics.get_name">
-<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.CoordinationMetrics.get_name" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the name attribute.</p>
-<p>This function returns the name attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The name of the dataset instance.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">get_pca_subspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_pca_subspace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
-<dd><p>Computes the PCA (Principal Component Analysis) subspace for the given data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>n_components</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of principal components to keep.
-If None, the number of components will be set to the number of degrees of freedom (self.n_dof).</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing the PCA-transformed data with the specified number of components.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">load_csv_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.load_csv_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
-<dd><p>Loads joint angle data from a list of CSV files.</p>
-<p>This method reads CSV files specified in <cite>self.list_files_angles</cite> and
-stores the data in <cite>self.data_joints_angles</cite>. Each file is expected to
-have a header row.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>FileNotFoundError</strong> – If any file in <cite>self.list_files_angles</cite> does not exist.</p></li>
-<li><p><strong>ValueError</strong> – If any file in <cite>self.list_files_angles</cite> is not a CSV file.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">plot_joints_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
-<dd><p>Plots the joint angles for the specified trial, all trials, or mean trial.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the trial to plot. If None, plots all trials. If -1, plots the mean of all trials. Defaults to None.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the trial index is out of range.</p></li>
-<li><p><strong>The plot will display the joint angles over time for the specified trial</strong><strong>(</strong><strong>s</strong><strong>)</strong><strong>.</strong> – </p></li>
-<li><p><strong>The x-axis represents time</strong><strong>, </strong><strong>and the y-axis represents the joint angles.</strong> – </p></li>
-<li><p><strong>The y-axis label will indicate whether the angles are in degrees</strong><strong> or </strong><strong>radians.</strong> – </p></li>
-<li><p><strong>The plot title will include the name</strong><strong> of </strong><strong>the trial</strong><strong>(</strong><strong>s</strong><strong>) </strong><strong>and</strong><strong>, </strong><strong>if available</strong><strong>, </strong><strong>the name</strong><strong> of </strong><strong>the dataset.</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">plot_joints_angular_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
-<dd><p>Plots the joint angular velocities for the specified trial.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<em>int</em>) – The index of the trial to plot. If None, plots all trials. If -1  plots the mean of all trials.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">rename_end_effector_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_end_effector_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
-<dd><p>Renames the columns of the end-effector data.</p>
-<p>This method renames the columns of the end-effector data to “ee_x”, “ee_y”, and “ee_z”.
-The function iterates over all dataframes containing joints angles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">rename_time_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_time_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
-<dd><p>Renames the first column of each DataFrame in the <cite>data_joints_angles</cite> attribute to “time”.</p>
-<p>This method iterates over the list of DataFrames stored in the <cite>data_joints_angles</cite> attribute
-and renames the first column of each DataFrame to “time”.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">set_angle_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angle_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
-<dd><p>Sets the names of the angles based on the data provided.</p>
-<p>This method assigns the list of angle names to the <cite>list_name_angles</cite> attribute.
-If <cite>list_name_angles</cite> is None and <cite>end_effector</cite> is False, it sets <cite>list_name_angles</cite>
-to all columns of <cite>data_joints_angles[0]</cite> except the first one.
-If <cite>list_name_angles</cite> is None and <cite>end_effector</cite> is True, it sets <cite>list_name_angles</cite>
-to all columns of <cite>data_joints_angles[0]</cite> except the first one and the last three.</p>
-<dl class="simple">
-<dt>Parameters</dt><dd><dl class="simple">
-<dt>list_name_angles<span class="classifier">list</span></dt><dd><p>The list of angle names.</p>
-</dd>
-<dt>data_joints_angles<span class="classifier">list</span></dt><dd><p>A list containing data frames with joint angles.</p>
-</dd>
-<dt>end_effector<span class="classifier">bool</span></dt><dd><p>A flag indicating whether the end effector is considered.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">set_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
-<dd><p>Sets the combinations of angles for computing inter-joint coordination metrics.
-This method generates all possible combinations of angles from the list of angle names
-and stores them in the <cite>angles_combinations</cite> attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
-<li><p><strong>angles_combinations</strong> (<em>list</em>) – A list containing all possible combinations of angles.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">set_n_dof</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_n_dof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
-<dd><p>Sets the number of degrees of freedom (n_dof) for the object.
-This method calculates the number of degrees of freedom by determining the length of the
-list_name_angles attribute and assigns this value to the n_dof attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_dof</strong> (<em>int</em>) – The number of degrees of freedom.</p></li>
-<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">set_velocities_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_velocities_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
-<dd><p>Sets the names of the velocities of the angles.
-This method sets the names of the velocities of the angles by appending “_velocity”
-to the names of the angles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
-<li><p><strong>list_name_velocities</strong> (<em>list</em>) – A list containing the names of the velocities of the angles.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.generate_palette">
-<span class="sig-prename descclassname"><span class="pre">coordination_metrics_toolbox.metrics.</span></span><span class="sig-name descname"><span class="pre">generate_palette</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#generate_palette"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.generate_palette" title="Link to this definition"></a></dt>
-<dd><p>Generate a color palette with <cite>n</cite> colors using the ‘viridis’ colormap.</p>
-<dl class="simple">
-<dt>Parameters</dt><dd><dl class="simple">
-<dt>n<span class="classifier">int</span></dt><dd><p>The number of colors to generate.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt>colors<span class="classifier">list</span></dt><dd><p>A list of RGBA color tuples.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.metrics.get_pca_frame">
-<span class="sig-prename descclassname"><span class="pre">coordination_metrics_toolbox.metrics.</span></span><span class="sig-name descname"><span class="pre">get_pca_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#get_pca_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.metrics.get_pca_frame" title="Link to this definition"></a></dt>
-<dd><p>Perform Principal Component Analysis (PCA) on the given data and return the PCA frame.</p>
-<dl class="simple">
-<dt>Parameters</dt><dd><dl class="simple">
-<dt>data<span class="classifier">array-like, shape (n_samples, n_features)</span></dt><dd><p>The input data to perform PCA on.</p>
-</dd>
-<dt>n_components<span class="classifier">int, optional, default=2</span></dt><dd><p>The number of principal components to compute.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt>components<span class="classifier">array, shape (n_components, n_features)</span></dt><dd><p>The principal components of the data.</p>
-</dd>
-<dt>explained_variance_ratio<span class="classifier">array, shape (n_components,)</span></dt><dd><p>The amount of variance explained by each of the selected components.</p>
-</dd>
-</dl>
-</dd>
-<dt>Notes</dt><dd><p>The function normalizes the data by subtracting the mean before performing PCA.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="module-coordination_metrics_toolbox.utils">
-<span id="coordination-metrics-toolbox-utils-module"></span><h2>coordination_metrics_toolbox.utils module<a class="headerlink" href="#module-coordination_metrics_toolbox.utils" title="Link to this heading"></a></h2>
-</section>
+  <section id="coordination-metrics-toolbox">
+<h1>coordination_metrics_toolbox<a class="headerlink" href="#coordination-metrics-toolbox" title="Link to this heading"></a></h1>
 <section id="module-coordination_metrics_toolbox">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-coordination_metrics_toolbox" title="Link to this heading"></a></h2>
 <dl class="py class">
@@ -1352,59 +320,232 @@ cross-correlation, and more.</p>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">compute_angle_angle_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_angle_angle_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
-<dd><p>Generates an angle-angle plot for joint angles data.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_files_angles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_name_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_effector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the CoordinationMetrics object.</p>
+<p>Parameters
+list_files_angles : list</p>
+<blockquote>
+<div><p>List of file paths to the CSV files containing joint angle data.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>list_name_angles<span class="classifier">list, optional</span></dt><dd><p>List of names corresponding to the angles. Defaults to None.</p>
+</dd>
+<dt>name<span class="classifier">str, optional</span></dt><dd><p>Name of the dataset instance. Defaults to None.</p>
+</dd>
+<dt>end_effector<span class="classifier">bool, optional</span></dt><dd><p>Flag indicating if the data contains end-effector data. Defaults to False.</p>
+</dd>
+<dt>deg<span class="classifier">bool, optional</span></dt><dd><p>Flag indicating if the angles are in degrees. Defaults to True.</p>
+</dd>
+<dt>freq<span class="classifier">float, optional</span></dt><dd><p>Frequency of the data. Defaults to None.</p>
+</dd>
+</dl>
+<p>Returns
+None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">load_csv_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.load_csv_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Loads joint angle data from a list of CSV files.</p>
+<p>This method reads CSV files specified in <cite>self.list_files_angles</cite> and
+stores the data in <cite>self.data_joints_angles</cite>. Each file is expected to
+have a header row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – If any file in <cite>self.list_files_angles</cite> does not exist.</p></li>
+<li><p><strong>ValueError</strong> – If any file in <cite>self.list_files_angles</cite> is not a CSV file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">set_angle_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angle_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Sets the names of the angles based on the data provided.</p>
+<p>This method assigns the list of angle names to the <cite>list_name_angles</cite> attribute.
+If <cite>list_name_angles</cite> is None and <cite>end_effector</cite> is False, it sets <cite>list_name_angles</cite>
+to all columns of <cite>data_joints_angles[0]</cite> except the first one.
+If <cite>list_name_angles</cite> is None and <cite>end_effector</cite> is True, it sets <cite>list_name_angles</cite>
+to all columns of <cite>data_joints_angles[0]</cite> except the first one and the last three.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the trial to plot. If None, all trials are concatenated and plotted.
-If -1, the mean of all trials is plotted. Defaults to None.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_name_angles</strong> (<em>list</em>) – The list of angle names.</p></li>
+<li><p><strong>data_joints_angles</strong> (<em>list</em>) – A list containing data frames with joint angles.</p></li>
+<li><p><strong>end_effector</strong> (<em>bool</em>) – A flag indicating whether the end effector is considered.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">set_velocities_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_velocities_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Sets the names of the velocities of the angles.
+This method sets the names of the velocities of the angles by appending “_velocity”
+to the names of the angles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
+<li><p><strong>list_name_velocities</strong> (<em>list</em>) – A list containing the names of the velocities of the angles.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">set_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Sets the combinations of angles for computing inter-joint coordination metrics.
+This method generates all possible combinations of angles from the list of angle names
+and stores them in the <cite>angles_combinations</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
+<li><p><strong>angles_combinations</strong> (<em>list</em>) – A list containing all possible combinations of angles.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">rename_time_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_time_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Renames the first column of each DataFrame in the <cite>data_joints_angles</cite> attribute to “time”.</p>
+<p>This method iterates over the list of DataFrames stored in the <cite>data_joints_angles</cite> attribute
+and renames the first column of each DataFrame to “time”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">rename_end_effector_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_end_effector_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Renames the columns of the end-effector data.</p>
+<p>This method renames the columns of the end-effector data to “ee_x”, “ee_y”, and “ee_z”.
+The function iterates over all dataframes containing joints angles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">compute_end_effector_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_end_effector_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Computes the velocity of the end-effector data.</p>
+<p>This method computes the velocity of the end-effector data by taking the derivative of the
+“ee_x”, “ee_y”, and “ee_z” columns. The velocity is stored in the “ee_x_velocity”,
+“ee_y_velocity”, and “ee_z_velocity” columns. The global end-effector velocity is also computed
+and stored in the “ee_velocity” column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">set_n_dof</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_n_dof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>Sets the number of degrees of freedom (n_dof) for the object.
+This method calculates the number of degrees of freedom by determining the length of the
+list_name_angles attribute and assigns this value to the n_dof attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_dof</strong> (<em>int</em>) – The number of degrees of freedom.</p></li>
+<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The data used for plotting.</p>
+<dd class="field-even"><p>None</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame</p>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">convert_angles_to_radians</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.convert_angles_to_radians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>Converts the joint angles from degrees to radians.</p>
+<p>This method converts the joint angles from degrees to radians by multiplying the values
+in the <cite>data_joints_angles</cite> attribute by the conversion factor pi/180.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_joints_angles</strong> (<em>list</em><em> of </em><em>DataFrames</em>) – A list containing DataFrames with joint angle data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">compute_joints_angular_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>Computes the angular velocity for each joint angle in the dataset.</p>
+<p>This method calculates the angular velocity for each joint angle by taking the difference
+between consecutive angle values and dividing by the time difference. The resulting angular
+velocities are stored in new columns with the suffix ‘_velocity’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">plot_joints_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>Plots the joint angles for the specified trial, all trials, or mean trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the trial to plot. If None, plots all trials. If -1, plots the mean of all trials. Defaults to None.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the trial index is out of range.</p></li>
+<li><p><strong>The plot will display the joint angles over time for the specified trial</strong><strong>(</strong><strong>s</strong><strong>)</strong><strong>.</strong> – </p></li>
+<li><p><strong>The x-axis represents time</strong><strong>, </strong><strong>and the y-axis represents the joint angles.</strong> – </p></li>
+<li><p><strong>The y-axis label will indicate whether the angles are in degrees</strong><strong> or </strong><strong>radians.</strong> – </p></li>
+<li><p><strong>The plot title will include the name</strong><strong> of </strong><strong>the trial</strong><strong>(</strong><strong>s</strong><strong>) </strong><strong>and</strong><strong>, </strong><strong>if available</strong><strong>, </strong><strong>the name</strong><strong> of </strong><strong>the dataset.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">plot_joints_angular_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Plots the joint angular velocities for the specified trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial</strong> (<em>int</em>) – The index of the trial to plot. If None, plots all trials. If -1  plots the mean of all trials.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
 </dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_angle_ratio">
-<span class="sig-name descname"><span class="pre">compute_angle_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_angle_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_angle_ratio" title="Link to this definition"></a></dt>
-<dd><p>Compute the ratio of joint angles at the time of maximum end-effector velocity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the angle ratio for. If None, computes for all trials.
-If -1, computes for the mean of all trials. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the angle ratios. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the trial index, joint pairs, and their corresponding angle ratios.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If end-effector data is not available or if the trial index is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The angle ratio is computed as the ratio of the angles of two joints at the time point where the end-effector velocity is maximum.
-If the angle of the second joint is zero, the ratio is set to NaN.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">compute_continuous_relative_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_continuous_relative_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">compute_continuous_relative_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_continuous_relative_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
 <dd><p>Compute the Continuous Relative Phase (CRP) for joint angles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1441,39 +582,61 @@ over time for the specified trial(s).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_correlation">
-<span class="sig-name descname"><span class="pre">compute_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pearson'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_correlation" title="Link to this definition"></a></dt>
-<dd><p>Compute the correlation between joint angles for a given trial or all trials.</p>
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">compute_angle_angle_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_angle_angle_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Generates an angle-angle plot for joint angles data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the trial to plot. If None, all trials are concatenated and plotted.
+If -1, the mean of all trials is plotted. Defaults to None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data used for plotting.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">compute_principal_component_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_principal_component_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>Compute Principal Component Analysis (PCA) on joint angle data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the correlation for. If None, computes the correlation for all trials.
-If -1, computes the correlation for the mean of all trials. Default is None.</p></li>
+Index of the trial to analyze. If None, all trials are concatenated.
+If -1, the mean of all trials is used. Default is None.</p></li>
 <li><p><strong>plot</strong> – bool, optional
-If True, plots the correlation results. Default is False.</p></li>
-<li><p><strong>type</strong> – str, optional
-The type of correlation to compute. Options are ‘pearson’, ‘kendall’, or ‘spearman’. Default is ‘pearson’.</p></li>
+If True, plots the PCA components. Default is False.</p></li>
+<li><p><strong>n_components</strong> – int, optional
+Number of principal components to compute. Default is 2.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
-<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the correlation results with columns [‘trial’, ‘joints’, ‘correlation’].</p>
+<dt>PCA object</dt><dd><p>Fitted PCA object containing the principal components.</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pca</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>The method computes the correlation between all combinations of joint angles specified in <cite>self.angles_combinations</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">compute_cross_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_cross_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">compute_cross_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_cross_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
 <dd><p>Compute the cross-correlation between joint angles for a given trial or all trials.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1498,6 +661,55 @@ If True, normalizes the data before computing cross-correlation. Defaults to Fal
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">compute_interjoint_coupling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_interjoint_coupling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd><p>Computes the Interjoint Coupling Interval (ICI) for the given trial or all trials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial</strong> – int, optional
+The index of the trial to compute the ICI for. If None, computes the ICI for all trials.
+If -1, computes the ICI for the mean of all trials. Default is None.</p></li>
+<li><p><strong>plot</strong> – bool, optional
+If True, plots the ICI results using a bar plot. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the ICI results with columns ‘trial’, ‘joints’, and ‘ICI’.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The ICI is computed as the difference in deactivation times between two joints.
+The deactivation time is defined as the first element of the last block of consecutive indices
+where the joint’s velocity is less than 5% of its maximum velocity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">get_pca_subspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_pca_subspace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd><p>Computes the PCA (Principal Component Analysis) subspace for the given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_components</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of principal components to keep.
+If None, the number of components will be set to the number of degrees of freedom (self.n_dof).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the PCA-transformed data with the specified number of components.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1533,67 +745,24 @@ Flag to indicate whether to plot the distance between PCs. Default is False.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_dynamic_time_warping">
-<span class="sig-name descname"><span class="pre">compute_dynamic_time_warping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_dynamic_time_warping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_dynamic_time_warping" title="Link to this definition"></a></dt>
-<dd><p>Compute the Dynamic Time Warping (DTW) distance between joint angles for a given trial or all trials.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_correlation">
+<span class="sig-name descname"><span class="pre">compute_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pearson'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_correlation" title="Link to this definition"></a></dt>
+<dd><p>Compute the correlation between joint angles for a given trial or all trials.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial</strong> – int, optional
-The index of the trial to compute DTW for. If None, computes DTW for all trials. If -1, computes DTW for the mean of all trials. Defaults to None.</p></li>
+The index of the trial to compute the correlation for. If None, computes the correlation for all trials.
+If -1, computes the correlation for the mean of all trials. Default is None.</p></li>
 <li><p><strong>plot</strong> – bool, optional
-If True, plots the DTW results. Defaults to False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing the DTW results with columns ‘trial’, ‘joints’, and ‘dtw’.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>The DTW distance is computed for each combination of joint angles.</p></li>
-<li><p>If plot is True, a bar plot of the DTW results is displayed.</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">compute_end_effector_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_end_effector_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
-<dd><p>Computes the velocity of the end-effector data.</p>
-<p>This method computes the velocity of the end-effector data by taking the derivative of the
-“ee_x”, “ee_y”, and “ee_z” columns. The velocity is stored in the “ee_x_velocity”,
-“ee_y_velocity”, and “ee_z_velocity” columns. The global end-effector velocity is also computed
-and stored in the “ee_velocity” column.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">compute_interjoint_coupling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_interjoint_coupling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
-<dd><p>Computes the Interjoint Coupling Interval (ICI) for the given trial or all trials.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – int, optional
-The index of the trial to compute the ICI for. If None, computes the ICI for all trials.
-If -1, computes the ICI for the mean of all trials. Default is None.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, plots the ICI results using a bar plot. Default is False.</p></li>
+If True, plots the correlation results. Default is False.</p></li>
+<li><p><strong>type</strong> – str, optional
+The type of correlation to compute. Options are ‘pearson’, ‘kendall’, or ‘spearman’. Default is ‘pearson’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
-<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the ICI results with columns ‘trial’, ‘joints’, and ‘ICI’.</p>
+<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the correlation results with columns [‘trial’, ‘joints’, ‘correlation’].</p>
 </dd>
 </dl>
 </p>
@@ -1603,119 +772,37 @@ If True, plots the ICI results using a bar plot. Default is False.</p></li>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The ICI is computed as the difference in deactivation times between two joints.
-The deactivation time is defined as the first element of the last block of consecutive indices
-where the joint’s velocity is less than 5% of its maximum velocity.</p>
+<p>The method computes the correlation between all combinations of joint angles specified in <cite>self.angles_combinations</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_jcvpca">
-<span class="sig-name descname"><span class="pre">compute_jcvpca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_jcvpca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_jcvpca" title="Link to this definition"></a></dt>
-<dd><p>Compute Joint Contribution Variation using PCA (JCVPCA).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>coord_metric</strong> – object
-An object that provides the method <cite>get_concatenate_data()</cite> to retrieve the data for PCA.</p></li>
-<li><p><strong>plot</strong> – bool, optional
-If True, the function will generate and display plots of the PCA results. Default is True.</p></li>
-<li><p><strong>n_pca</strong> – int, optional
-Number of principal components to compute. If None, it defaults to the number of degrees of freedom (self.n_dof).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>numpy.ndarray</dt><dd><p>The PCA subspace of the reference dataset.</p>
-</dd>
-<dt>res<span class="classifier">numpy.ndarray</span></dt><dd><p>The absolute values of the projection of the second dataset in the PCA subspace.</p>
-</dd>
-<dt>sub<span class="classifier">numpy.ndarray</span></dt><dd><p>The difference between the absolute values of the PCA subspaces of the two datasets.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>subspaceA</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">compute_joints_angular_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
-<dd><p>Computes the angular velocity for each joint angle in the dataset.</p>
-<p>This method calculates the angular velocity for each joint angle by taking the difference
-between consecutive angle values and dividing by the time difference. The resulting angular
-velocities are stored in new columns with the suffix ‘_velocity’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong></p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_jsvcrp">
-<span class="sig-name descname"><span class="pre">compute_jsvcrp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_jsvcrp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_jsvcrp" title="Link to this definition"></a></dt>
-<dd><p>Compute the Joint Synchronization Variation based on Continuous Relative Phase (JSvCRP) between two datasets.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>coord_metric</strong> – object
-An object containing the second dataset with a method to compute continuous relative phase.</p></li>
-<li><p><strong>plot</strong> – bool
-If True, a heatmap of the JSvCRP will be plotted. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing the JSvCRP values for each pair of angles.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>The method computes the Continuous Relative Phase (CRP) for both datasets.</p></li>
-<li><p>The JSvCRP is calculated as the integral of the absolute difference between the CRP values of the two datasets.</p></li>
-<li><p>The resulting JSvCRP values are stored in a DataFrame with angles as both rows and columns.</p></li>
-<li><p>If <cite>plot</cite> is True, a heatmap of the JSvCRP values is displayed.</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id24">
-<span class="sig-name descname"><span class="pre">compute_principal_component_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_principal_component_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
-<dd><p>Compute Principal Component Analysis (PCA) on joint angle data.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_angle_ratio">
+<span class="sig-name descname"><span class="pre">compute_angle_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_angle_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_angle_ratio" title="Link to this definition"></a></dt>
+<dd><p>Compute the ratio of joint angles at the time of maximum end-effector velocity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial</strong> – int, optional
-Index of the trial to analyze. If None, all trials are concatenated.
-If -1, the mean of all trials is used. Default is None.</p></li>
+The index of the trial to compute the angle ratio for. If None, computes for all trials.
+If -1, computes for the mean of all trials. Default is None.</p></li>
 <li><p><strong>plot</strong> – bool, optional
-If True, plots the PCA components. Default is False.</p></li>
-<li><p><strong>n_components</strong> – int, optional
-Number of principal components to compute. Default is 2.</p></li>
+If True, plots the angle ratios. Default is False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
-<dt>PCA object</dt><dd><p>Fitted PCA object containing the principal components.</p>
+<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the trial index, joint pairs, and their corresponding angle ratios.</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pca</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If end-effector data is not available or if the trial index is out of range.</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>The angle ratio is computed as the ratio of the angles of two joints at the time point where the end-effector velocity is maximum.
+If the angle of the second joint is zero, the ratio is set to NaN.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1786,48 +873,94 @@ If True, plots the zero crossing time delay for each joint. Defaults to False.</
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">convert_angles_to_radians</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.convert_angles_to_radians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
-<dd><p>Converts the joint angles from degrees to radians.</p>
-<p>This method converts the joint angles from degrees to radians by multiplying the values
-in the <cite>data_joints_angles</cite> attribute by the conversion factor pi/180.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_dynamic_time_warping">
+<span class="sig-name descname"><span class="pre">compute_dynamic_time_warping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_dynamic_time_warping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_dynamic_time_warping" title="Link to this definition"></a></dt>
+<dd><p>Compute the Dynamic Time Warping (DTW) distance between joint angles for a given trial or all trials.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data_joints_angles</strong> (<em>list</em><em> of </em><em>DataFrames</em>) – A list containing DataFrames with joint angle data.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial</strong> – int, optional
+The index of the trial to compute DTW for. If None, computes DTW for all trials. If -1, computes DTW for the mean of all trials. Defaults to None.</p></li>
+<li><p><strong>plot</strong> – bool, optional
+If True, plots the DTW results. Defaults to False.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>A DataFrame containing the DTW results with columns ‘trial’, ‘joints’, and ‘dtw’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The DTW distance is computed for each combination of joint angles.</p></li>
+<li><p>If plot is True, a bar plot of the DTW results is displayed.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_jcvpca">
+<span class="sig-name descname"><span class="pre">compute_jcvpca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_jcvpca"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_jcvpca" title="Link to this definition"></a></dt>
+<dd><p>Compute Joint Contribution Variation using PCA (JCVPCA).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coord_metric</strong> – object
+An object that provides the method <cite>get_concatenate_data()</cite> to retrieve the data for PCA.</p></li>
+<li><p><strong>plot</strong> – bool, optional
+If True, the function will generate and display plots of the PCA results. Default is True.</p></li>
+<li><p><strong>n_pca</strong> – int, optional
+Number of principal components to compute. If None, it defaults to the number of degrees of freedom (self.n_dof).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>numpy.ndarray</dt><dd><p>The PCA subspace of the reference dataset.</p>
+</dd>
+<dt>res<span class="classifier">numpy.ndarray</span></dt><dd><p>The absolute values of the projection of the second dataset in the PCA subspace.</p>
+</dd>
+<dt>sub<span class="classifier">numpy.ndarray</span></dt><dd><p>The difference between the absolute values of the PCA subspaces of the two datasets.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>subspaceA</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_angles_combinations">
-<span class="sig-name descname"><span class="pre">get_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_angles_combinations" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the angles_combinations attribute.</p>
-<p>This function returns the angles_combinations attribute.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.compute_jsvcrp">
+<span class="sig-name descname"><span class="pre">compute_jsvcrp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord_metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.compute_jsvcrp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.compute_jsvcrp" title="Link to this definition"></a></dt>
+<dd><p>Compute the Joint Synchronization Variation based on Continuous Relative Phase (JSvCRP) between two datasets.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list containing all possible combinations of angles.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coord_metric</strong> – object
+An object containing the second dataset with a method to compute continuous relative phase.</p></li>
+<li><p><strong>plot</strong> – bool
+If True, a heatmap of the JSvCRP will be plotted. Default is False.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the JSvCRP values for each pair of angles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_concatenate_data">
-<span class="sig-name descname"><span class="pre">get_concatenate_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_concatenate_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_concatenate_data" title="Link to this definition"></a></dt>
-<dd><p>Concatenate all joints data in a single DataFrame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing all joints data.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame</p>
-</dd>
-</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The method computes the Continuous Relative Phase (CRP) for both datasets.</p></li>
+<li><p>The JSvCRP is calculated as the integral of the absolute difference between the CRP values of the two datasets.</p></li>
+<li><p>The resulting JSvCRP values are stored in a DataFrame with angles as both rows and columns.</p></li>
+<li><p>If <cite>plot</cite> is True, a heatmap of the JSvCRP values is displayed.</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -1841,50 +974,6 @@ in the <cite>data_joints_angles</cite> attribute by the conversion factor pi/180
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_list_name_angles">
-<span class="sig-name descname"><span class="pre">get_list_name_angles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_list_name_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_list_name_angles" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the list_name_angles attribute.</p>
-<p>This function returns the list_name_angles attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list containing the names of the angles.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_list_name_velocities">
-<span class="sig-name descname"><span class="pre">get_list_name_velocities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_list_name_velocities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_list_name_velocities" title="Link to this definition"></a></dt>
-<dd><p>Getter function for the list_name_velocities attribute.</p>
-<p>This function returns the list_name_velocities attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list containing the names of the velocities of the angles.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_mean_data">
-<span class="sig-name descname"><span class="pre">get_mean_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_mean_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_mean_data" title="Link to this definition"></a></dt>
-<dd><p>Returns the mean of the data for all trials.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing the mean of the data for all trials.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1920,172 +1009,74 @@ in the <cite>data_joints_angles</cite> attribute by the conversion factor pi/180
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">get_pca_subspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_pca_subspace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
-<dd><p>Computes the PCA (Principal Component Analysis) subspace for the given data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>n_components</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of principal components to keep.
-If None, the number of components will be set to the number of degrees of freedom (self.n_dof).</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame containing the PCA-transformed data with the specified number of components.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">load_csv_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.load_csv_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
-<dd><p>Loads joint angle data from a list of CSV files.</p>
-<p>This method reads CSV files specified in <cite>self.list_files_angles</cite> and
-stores the data in <cite>self.data_joints_angles</cite>. Each file is expected to
-have a header row.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>FileNotFoundError</strong> – If any file in <cite>self.list_files_angles</cite> does not exist.</p></li>
-<li><p><strong>ValueError</strong> – If any file in <cite>self.list_files_angles</cite> is not a CSV file.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id28">
-<span class="sig-name descname"><span class="pre">plot_joints_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
-<dd><p>Plots the joint angles for the specified trial, all trials, or mean trial.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the trial to plot. If None, plots all trials. If -1, plots the mean of all trials. Defaults to None.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the trial index is out of range.</p></li>
-<li><p><strong>The plot will display the joint angles over time for the specified trial</strong><strong>(</strong><strong>s</strong><strong>)</strong><strong>.</strong> – </p></li>
-<li><p><strong>The x-axis represents time</strong><strong>, </strong><strong>and the y-axis represents the joint angles.</strong> – </p></li>
-<li><p><strong>The y-axis label will indicate whether the angles are in degrees</strong><strong> or </strong><strong>radians.</strong> – </p></li>
-<li><p><strong>The plot title will include the name</strong><strong> of </strong><strong>the trial</strong><strong>(</strong><strong>s</strong><strong>) </strong><strong>and</strong><strong>, </strong><strong>if available</strong><strong>, </strong><strong>the name</strong><strong> of </strong><strong>the dataset.</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id29">
-<span class="sig-name descname"><span class="pre">plot_joints_angular_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.plot_joints_angular_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
-<dd><p>Plots the joint angular velocities for the specified trial.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<em>int</em>) – The index of the trial to plot. If None, plots all trials. If -1  plots the mean of all trials.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the trial index is out of range.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id30">
-<span class="sig-name descname"><span class="pre">rename_end_effector_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_end_effector_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
-<dd><p>Renames the columns of the end-effector data.</p>
-<p>This method renames the columns of the end-effector data to “ee_x”, “ee_y”, and “ee_z”.
-The function iterates over all dataframes containing joints angles.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_list_name_angles">
+<span class="sig-name descname"><span class="pre">get_list_name_angles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_list_name_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_list_name_angles" title="Link to this definition"></a></dt>
+<dd><p>Getter function for the list_name_angles attribute.</p>
+<p>This function returns the list_name_angles attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd class="field-odd"><p>A list containing the names of the angles.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id31">
-<span class="sig-name descname"><span class="pre">rename_time_column</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.rename_time_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
-<dd><p>Renames the first column of each DataFrame in the <cite>data_joints_angles</cite> attribute to “time”.</p>
-<p>This method iterates over the list of DataFrames stored in the <cite>data_joints_angles</cite> attribute
-and renames the first column of each DataFrame to “time”.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_list_name_velocities">
+<span class="sig-name descname"><span class="pre">get_list_name_velocities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_list_name_velocities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_list_name_velocities" title="Link to this definition"></a></dt>
+<dd><p>Getter function for the list_name_velocities attribute.</p>
+<p>This function returns the list_name_velocities attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd class="field-odd"><p>A list containing the names of the velocities of the angles.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id32">
-<span class="sig-name descname"><span class="pre">set_angle_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angle_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
-<dd><p>Sets the names of the angles based on the data provided.</p>
-<p>This method assigns the list of angle names to the <cite>list_name_angles</cite> attribute.
-If <cite>list_name_angles</cite> is None and <cite>end_effector</cite> is False, it sets <cite>list_name_angles</cite>
-to all columns of <cite>data_joints_angles[0]</cite> except the first one.
-If <cite>list_name_angles</cite> is None and <cite>end_effector</cite> is True, it sets <cite>list_name_angles</cite>
-to all columns of <cite>data_joints_angles[0]</cite> except the first one and the last three.</p>
-<dl class="simple">
-<dt>Parameters</dt><dd><dl class="simple">
-<dt>list_name_angles<span class="classifier">list</span></dt><dd><p>The list of angle names.</p>
-</dd>
-<dt>data_joints_angles<span class="classifier">list</span></dt><dd><p>A list containing data frames with joint angles.</p>
-</dd>
-<dt>end_effector<span class="classifier">bool</span></dt><dd><p>A flag indicating whether the end effector is considered.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id33">
-<span class="sig-name descname"><span class="pre">set_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
-<dd><p>Sets the combinations of angles for computing inter-joint coordination metrics.
-This method generates all possible combinations of angles from the list of angle names
-and stores them in the <cite>angles_combinations</cite> attribute.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_angles_combinations">
+<span class="sig-name descname"><span class="pre">get_angles_combinations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_angles_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_angles_combinations" title="Link to this definition"></a></dt>
+<dd><p>Getter function for the angles_combinations attribute.</p>
+<p>This function returns the angles_combinations attribute.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
-<li><p><strong>angles_combinations</strong> (<em>list</em>) – A list containing all possible combinations of angles.</p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing all possible combinations of angles.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id34">
-<span class="sig-name descname"><span class="pre">set_n_dof</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_n_dof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
-<dd><p>Sets the number of degrees of freedom (n_dof) for the object.
-This method calculates the number of degrees of freedom by determining the length of the
-list_name_angles attribute and assigns this value to the n_dof attribute.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_mean_data">
+<span class="sig-name descname"><span class="pre">get_mean_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_mean_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_mean_data" title="Link to this definition"></a></dt>
+<dd><p>Returns the mean of the data for all trials.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_dof</strong> (<em>int</em>) – The number of degrees of freedom.</p></li>
-<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing the mean of the data for all trials.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id35">
-<span class="sig-name descname"><span class="pre">set_velocities_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.set_velocities_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
-<dd><p>Sets the names of the velocities of the angles.
-This method sets the names of the velocities of the angles by appending “_velocity”
-to the names of the angles.</p>
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.CoordinationMetrics.get_concatenate_data">
+<span class="sig-name descname"><span class="pre">get_concatenate_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#CoordinationMetrics.get_concatenate_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.CoordinationMetrics.get_concatenate_data" title="Link to this definition"></a></dt>
+<dd><p>Concatenate all joints data in a single DataFrame.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>list_name_angles</strong> (<em>list</em>) – A list containing the names of the angles.</p></li>
-<li><p><strong>list_name_velocities</strong> (<em>list</em>) – A list containing the names of the velocities of the angles.</p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing all joints data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2106,6 +1097,30 @@ to the names of the angles.</p>
 <dt>colors<span class="classifier">list</span></dt><dd><p>A list of RGBA color tuples.</p>
 </dd>
 </dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="coordination_metrics_toolbox.get_pca_frame">
+<span class="sig-prename descclassname"><span class="pre">coordination_metrics_toolbox.</span></span><span class="sig-name descname"><span class="pre">get_pca_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coordination_metrics_toolbox/metrics.html#get_pca_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coordination_metrics_toolbox.get_pca_frame" title="Link to this definition"></a></dt>
+<dd><p>Perform Principal Component Analysis (PCA) on the given data and return the PCA frame.</p>
+<dl class="simple">
+<dt>Parameters</dt><dd><dl class="simple">
+<dt>data<span class="classifier">array-like, shape (n_samples, n_features)</span></dt><dd><p>The input data to perform PCA on.</p>
+</dd>
+<dt>n_components<span class="classifier">int, optional, default=2</span></dt><dd><p>The number of principal components to compute.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>components<span class="classifier">array, shape (n_components, n_features)</span></dt><dd><p>The principal components of the data.</p>
+</dd>
+<dt>explained_variance_ratio<span class="classifier">array, shape (n_components,)</span></dt><dd><p>The amount of variance explained by each of the selected components.</p>
+</dd>
+</dl>
+</dd>
+<dt>Notes</dt><dd><p>The function normalizes the data by subtracting the mean before performing PCA.</p>
 </dd>
 </dl>
 </dd></dl>

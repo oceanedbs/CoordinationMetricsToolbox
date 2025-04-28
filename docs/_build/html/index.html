@@ -72,14 +72,60 @@
              
   <section id="coordinationmetricstoolbox-documentation">
 <h1>CoordinationMetricsToolbox documentation<a class="headerlink" href="#coordinationmetricstoolbox-documentation" title="Link to this heading"></a></h1>
-<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
-<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
-documentation for details.</p>
+<p>This coordination metrics toolbox is from the work of <em>Dubois, O., Roby-Brami, A., Parry, R. et al. A guide to inter-joint coordination characterization for discrete movements: a comparative study. J NeuroEngineering Rehabil 20, 132 (2023). https://doi.org/10.1186/s12984-023-01252-2</em>
+Not all metrics are implemented since some of them requires joints position trajectories.
+In addition, the metrics developped in the paper [add PLOS paper once published], have been added to quantify differences in inter-joint coordination.</p>
+<p>To use this toolbox, joints angle trajectories are required in the following format :</p>
+<p>The format expected for the data is the following one :</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">CSV data format</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 14.3%" />
+<col style="width: 14.3%" />
+<col style="width: 14.3%" />
+<col style="width: 14.3%" />
+<col style="width: 14.3%" />
+<col style="width: 14.3%" />
+<col style="width: 14.3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>time</p></th>
+<th class="head"><p>joint_i</p></th>
+<th class="head"><p>joint_j</p></th>
+<th class="head"><p>joint_k</p></th>
+<th class="head"><p>_ee_x_</p></th>
+<th class="head"><p>_ee_y_</p></th>
+<th class="head"><p>_ee_z_</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Columns containing end-effector data (ee_x, ee_y, ee_z), the position of the end-effector, are optional. However, without thoses columns, the number of metrics that can be computed is limited.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">coordination_metrics_toolbox</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="coordination_metrics_toolbox.html">coordination_metrics_toolbox package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coordination_metrics_toolbox.html">coordination_metrics_toolbox</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coordination_metrics_toolbox.html#module-coordination_metrics_toolbox">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

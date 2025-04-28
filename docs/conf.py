@@ -26,6 +26,11 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+autodoc_default_options = {
+    'members':         True,
+    'member-order':    'bysource',
+    'special-members': '__init__',
+}
 
 
 # -- Options for HTML output -------------------------------------------------

@@ -1,0 +1,11 @@
+README.md
+setup.py
+CoordinationMetricsToolbox.egg-info/PKG-INFO
+CoordinationMetricsToolbox.egg-info/SOURCES.txt
+CoordinationMetricsToolbox.egg-info/dependency_links.txt
+CoordinationMetricsToolbox.egg-info/entry_points.txt
+CoordinationMetricsToolbox.egg-info/requires.txt
+CoordinationMetricsToolbox.egg-info/top_level.txt
+coordination_metrics_toolbox/__init__.py
+coordination_metrics_toolbox/metrics.py
+coordination_metrics_toolbox/utils.py

@@ -8,12 +8,13 @@ setup(
         'numpy',
         'pandas',
         'matplotlib',
+        'seaborn',
+        'scikit-learn',
         # Add other dependencies here
     ],
-    entry_points={
+     entry_points={
         'console_scripts': [
-            'generate_dataset=generate_testing_dataset:main',
-            'run_tests=test:main',
+            'run_metrics=coordination_metrics_toolbox.metrics:main',  # Example CLI entry point
         ],
     },
     author='Océane Dubois',

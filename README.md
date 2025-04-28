@@ -1,4 +1,3 @@
-# CoordinationMetricsToolbox
 # Coordination Metrics Toolbox
 
 The Coordination Metrics Toolbox is a comprehensive suite of tools designed to measure and analyze coordination metrics in various projects.
@@ -6,13 +5,13 @@ The Coordination Metrics Toolbox is a comprehensive suite of tools designed to m
 ## Installation
 Download this repository
 At the root of this repository, run 
-    pip install .
+    `pip install .`
 
 
 Or 
-    pip install CoordinationMetricsToolbox
+    `pip install CoordinationMetricsToolbox`
 
-    
+
 # Informations
 
 This work comes from the article : Dubois, O., Roby-Brami, A., Parry, R. et al. A guide to inter-joint coordination characterization for discrete movements: a comparative study. J NeuroEngineering Rehabil 20, 132 (2023). https://doi.org/10.1186/s12984-023-01252-2
@@ -23,7 +22,9 @@ Not all metrics have been implemented since some of them needs additional inform
 
 # Tutorial
 An exemple with simulated data is available in test_coord_metric.py. 
-CSV files containing a time column and joint angles trajectories can also be loaded to build a CoodinationMetric object form which different metrics can be computed. 
+
+Csv files containing a time column and joint angles trajectories can also be loaded to build a CoodinationMetric object form which different metrics can be computed. 
+
 
 The format expected for the data is the following one : 
 | time | joint_i | joint_j | joint_k | _ee_x_ | _ee_y_ | _ee_z_ |
@@ -41,6 +42,6 @@ The full documentation of the toolbox can be found [here](https://oceanedbs.gith
 
 # Generate local documentation 
 
-Go to the doc file and execute __make html__
+Go to the doc file and execute __make html__ to generate documentation locally
 
 
